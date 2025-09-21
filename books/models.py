@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 
 class Book(models.Model):
@@ -15,6 +16,7 @@ class Book(models.Model):
     daily_fee = models.DecimalField(
         max_digits=5,
         decimal_places=2,
+        validators=[MinValueValidator(0)],
     )
 
     def __str__(self):
