@@ -1,10 +1,13 @@
 from django.db.models import F
 
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.utils import timezone
 
 from borrowings.models import Borrowing
-from borrowings.serializers import BorrowingSerializer
+from borrowings.serializers import BorrowingSerializer, BorrowingReturnSerializer
 
 
 class BorrowingViewSet(viewsets.ModelViewSet):
@@ -31,3 +34,21 @@ class BorrowingViewSet(viewsets.ModelViewSet):
 
         borrowing.book.inventory = F("inventory") - 1
         borrowing.book.save(update_fields=["inventory"])
+
+    @action(detail=True, methods=["post"], url_path="return")
+    def return_book(self, request, pk=None):
+        borrowing = self.get_object()
+        if borrowing.actual_return_date:
+            return Response(
+                {"detail": "Book already returned."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        borrowing.actual_return_date = timezone.now().date()
+        borrowing.save()
+
+        borrowing.book.inventory = F("inventory") + 1
+        borrowing.book.save(update_fields=["inventory"])
+
+        serializer = BorrowingReturnSerializer(borrowing)
+        return Response(serializer.data, status=status.HTTP_200_OK)
