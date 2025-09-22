@@ -18,7 +18,7 @@ from payments.serializers import PaymentSerializer
     create=extend_schema(
         summary="Create a payment",
         description="Creates a new payment. session_url"
-                    "and session_id are read-only.",
+        "and session_id are read-only.",
         request=PaymentSerializer,
         responses=PaymentSerializer,
     ),
