@@ -14,7 +14,7 @@ class PaymentSerializer(serializers.ModelSerializer):
             "session_id",
             "money_to_pay",
         ]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "session_url", "session_id"]
 
     def validate_status(self, value):
         if value not in dict(PaymentStatus.choices):
