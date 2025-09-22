@@ -7,6 +7,7 @@ from books.models import Book
 from django.contrib.auth import get_user_model
 from datetime import date, timedelta
 
+
 class PaymentSerializerTests(TestCase):
     def _create_user(self):
         return get_user_model().objects.create_user(

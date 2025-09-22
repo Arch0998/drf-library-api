@@ -36,5 +36,7 @@ class PaymentSerializer(serializers.ModelSerializer):
         if value is None:
             raise serializers.ValidationError("money_to_pay is required")
         if value < 0:
-            raise serializers.ValidationError("money_to_pay must be non-negative")
+            raise serializers.ValidationError(
+                "money_to_pay must be non-negative"
+            )
         return value

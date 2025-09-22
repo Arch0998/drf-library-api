@@ -78,19 +78,35 @@ class PaymentModelTests(TestCase):
 
     def test_unique_pending_per_borrowing_and_type_constraint(self):
         b = self._create_borrowing()
-        self.create_payment(borrowing=b, payment_type=PaymentType.PAYMENT, status=PaymentStatus.PENDING)
+        self.create_payment(
+            borrowing=b,
+            payment_type=PaymentType.PAYMENT,
+            status=PaymentStatus.PENDING,
+        )
 
         # Second pending with same pair should fail
         with self.assertRaises(IntegrityError):
             with transaction.atomic():
-                self.create_payment(borrowing=b, payment_type=PaymentType.PAYMENT, status=PaymentStatus.PENDING)
+                self.create_payment(
+                    borrowing=b,
+                    payment_type=PaymentType.PAYMENT,
+                    status=PaymentStatus.PENDING,
+                )
 
         # But a PAID for same pair is allowed
-        p_paid = self.create_payment(borrowing=b, payment_type=PaymentType.PAYMENT, status=PaymentStatus.PAID)
+        p_paid = self.create_payment(
+            borrowing=b,
+            payment_type=PaymentType.PAYMENT,
+            status=PaymentStatus.PAID,
+        )
         self.assertEqual(p_paid.status, PaymentStatus.PAID)
 
         # And a PENDING with a different type is allowed
-        p_other_type = self.create_payment(borrowing=b, payment_type=PaymentType.FINE, status=PaymentStatus.PENDING)
+        p_other_type = self.create_payment(
+            borrowing=b,
+            payment_type=PaymentType.FINE,
+            status=PaymentStatus.PENDING,
+        )
         self.assertEqual(p_other_type.payment_type, PaymentType.FINE)
 
     def test_choices_validation_with_full_clean(self):
