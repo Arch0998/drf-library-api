@@ -15,5 +15,6 @@ class PaymentViewSet(
     - create: POST /payments/
     - retrieve: GET /payments/{id}/
     """
+
     queryset = Payment.objects.all().order_by("-id")
     serializer_class = PaymentSerializer

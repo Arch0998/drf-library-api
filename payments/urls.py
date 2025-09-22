@@ -5,6 +5,4 @@ from payments.views import PaymentViewSet
 
 router = SimpleRouter()
 router.register(r"payments", PaymentViewSet, basename="payments")
-urlpatterns = [
-    path("", include(router.urls))
-]
+urlpatterns = [path("", include(router.urls))]
