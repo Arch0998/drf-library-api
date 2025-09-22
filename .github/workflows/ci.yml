@@ -12,24 +12,20 @@ jobs:
     services:
       postgres:
         image: postgres:16
-        env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB || 'test_db' }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER || 'test_user' }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD || 'test_pass' }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U ${{ secrets.POSTGRES_USER || 'test_user' }}" \
+          --health-cmd "pg_isready -U postgres" \
           --health-interval 10s \
           --health-timeout 5s \
           --health-retries 5
     env:
-      POSTGRES_DB: ${{ secrets.POSTGRES_DB || 'test_db' }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER || 'test_user' }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD || 'test_pass' }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       POSTGRES_HOST: localhost
       POSTGRES_PORT: 5432
-      DJANGO_SECRET_KEY: dummysecretkey
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
       DJANGO_SETTINGS_MODULE: core.settings.dev
 
     steps:
