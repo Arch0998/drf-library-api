@@ -1,16 +1,17 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+
 from datetime import date, timedelta
 from books.models import Book
 from borrowings.models import Borrowing
 
 User = get_user_model()
 
+
 class BorrowingModelTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            email="denis@example.com",
-            password="12345"
+            email="denis@example.com", password="12345"
         )
 
         self.book = Book.objects.create(
@@ -18,7 +19,7 @@ class BorrowingModelTest(TestCase):
             author="Test Author",
             cover="HARD",
             inventory=5,
-            daily_fee=2.5
+            daily_fee=2.5,
         )
 
         self.borrow_date = date.today()
@@ -29,23 +30,21 @@ class BorrowingModelTest(TestCase):
         borrowing = Borrowing.objects.create(
             user=self.user,
             book=self.book,
-            expected_return_date=expected_return
+            expected_return_date=expected_return,
         )
         self.assertEqual(borrowing.user, self.user)
         self.assertEqual(borrowing.book, self.book)
         self.assertIsNone(borrowing.actual_return_date)
         self.assertEqual(
             str(borrowing),
-            f"{self.user} borrowed {self.book} on {borrowing.borrow_date}"
+            f"{self.user} borrowed {self.book} on {borrowing.borrow_date}",
         )
 
     def test_expected_return_date_constraint(self):
         past_date = date.today() - timedelta(days=1)
         with self.assertRaises(Exception):
             Borrowing.objects.create(
-                user=self.user,
-                book=self.book,
-                expected_return_date=past_date
+                user=self.user, book=self.book, expected_return_date=past_date
             )
 
     def test_actual_return_date_constraint(self):
@@ -53,9 +52,11 @@ class BorrowingModelTest(TestCase):
         borrowing = Borrowing.objects.create(
             user=self.user,
             book=self.book,
-            expected_return_date=expected_return
+            expected_return_date=expected_return,
         )
-        borrowing.actual_return_date = borrowing.borrow_date - timedelta(days=1)
+        borrowing.actual_return_date = borrowing.borrow_date - timedelta(
+            days=1
+        )
         with self.assertRaises(Exception):
             borrowing.save()
 
@@ -64,13 +65,13 @@ class BorrowingModelTest(TestCase):
         Borrowing.objects.create(
             user=self.user,
             book=self.book,
-            expected_return_date=expected_return
+            expected_return_date=expected_return,
         )
         with self.assertRaises(Exception):
             Borrowing.objects.create(
                 user=self.user,
                 book=self.book,
-                expected_return_date=expected_return
+                expected_return_date=expected_return,
             )
 
     def test_allow_new_borrow_after_return(self):
@@ -78,7 +79,7 @@ class BorrowingModelTest(TestCase):
         borrowing = Borrowing.objects.create(
             user=self.user,
             book=self.book,
-            expected_return_date=expected_return
+            expected_return_date=expected_return,
         )
         borrowing.actual_return_date = date.today()
         borrowing.save()
@@ -86,6 +87,6 @@ class BorrowingModelTest(TestCase):
         new_borrowing = Borrowing.objects.create(
             user=self.user,
             book=self.book,
-            expected_return_date=date.today() + timedelta(days=7)
+            expected_return_date=date.today() + timedelta(days=7),
         )
         self.assertIsNotNone(new_borrowing)
