@@ -8,13 +8,17 @@ from rest_framework.response import Response
 from rest_framework.utils import timezone
 
 from borrowings.models import Borrowing
-from borrowings.serializers import BorrowingSerializer, BorrowingReturnSerializer
+from borrowings.serializers import (
+    BorrowingSerializer,
+    BorrowingReturnSerializer,
+)
 
 
 class BorrowingOutOfStock(APIException):
     status_code = 204
     default_detail = "Book is out of stock."
     default_code = "no_inventory"
+
 
 class BorrowingViewSet(viewsets.ModelViewSet):
     queryset = Borrowing.objects.all()

@@ -6,6 +6,7 @@ from users.models import User
 from borrowings.models import Borrowing
 from datetime import date, timedelta
 
+
 class BorrowingViewSetTest(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(
@@ -18,14 +19,14 @@ class BorrowingViewSetTest(APITestCase):
             author="Author",
             cover="HARD",
             inventory=5,
-            daily_fee=2.5
+            daily_fee=2.5,
         )
 
     def test_create_borrowing_decreases_inventory(self):
         url = reverse("borrowing-list")
         data = {
             "book": self.book.id,
-            "expected_return_date": date.today() + timedelta(days=7)
+            "expected_return_date": date.today() + timedelta(days=7),
         }
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -38,7 +39,7 @@ class BorrowingViewSetTest(APITestCase):
         url = reverse("borrowing-list")
         data = {
             "book": self.book.id,
-            "expected_return_date": date.today() + timedelta(days=7)
+            "expected_return_date": date.today() + timedelta(days=7),
         }
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, 204)  # BorrowingOutOfStock
@@ -47,7 +48,7 @@ class BorrowingViewSetTest(APITestCase):
         borrowing = Borrowing.objects.create(
             user=self.user,
             book=self.book,
-            expected_return_date=date.today() + timedelta(days=7)
+            expected_return_date=date.today() + timedelta(days=7),
         )
         self.book.inventory -= 1
         self.book.save()
@@ -65,7 +66,7 @@ class BorrowingViewSetTest(APITestCase):
             user=self.user,
             book=self.book,
             expected_return_date=date.today() + timedelta(days=7),
-            actual_return_date=date.today()
+            actual_return_date=date.today(),
         )
         url = reverse("borrowing-return-book", args=[borrowing.id])
         response = self.client.post(url, {}, format="json")
@@ -73,21 +74,25 @@ class BorrowingViewSetTest(APITestCase):
         self.assertEqual(response.data["detail"], "Book already returned.")
 
     def test_queryset_filter_user_and_is_active(self):
-        other_user = User.objects.create_user(email="other@example.com", password="123")
+        other_user = User.objects.create_user(
+            email="other@example.com", password="123"
+        )
         active_borrowing = Borrowing.objects.create(
             user=self.user,
             book=self.book,
-            expected_return_date=date.today() + timedelta(days=7)
+            expected_return_date=date.today() + timedelta(days=7),
         )
         inactive_borrowing = Borrowing.objects.create(
             user=other_user,
             book=self.book,
             expected_return_date=date.today() + timedelta(days=7),
-            actual_return_date=date.today()
+            actual_return_date=date.today(),
         )
 
         url = reverse("borrowing-list")
-        response = self.client.get(url, {"user_id": self.user.id, "is_active": "true"})
+        response = self.client.get(
+            url, {"user_id": self.user.id, "is_active": "true"}
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]["id"], active_borrowing.id)
