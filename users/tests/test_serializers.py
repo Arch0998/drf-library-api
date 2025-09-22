@@ -55,3 +55,17 @@ class UserSerializerTests(APITestCase):
         )
         self.assertFalse(serializer.is_valid())
         self.assertIn("email", serializer.errors)
+
+    def test_register_user_success_returns_user_without_password(self):
+        serializer = RegisterSerializer(data={
+            "email": "user@withoutparol.com",
+            "password": "007BondJames"
+        })
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+        user = serializer.save()
+
+        self.assertEqual(user.email, "user@withoutparol.com")
+        self.assertTrue(user.check_password("007BondJames"))
+        self.assertNotIn("password", serializer.data)
+
+
