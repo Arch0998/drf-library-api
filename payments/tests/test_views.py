@@ -28,9 +28,14 @@ class PaymentViewSetTests(TestCase):
         url = reverse("payments-list")
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        self.assertIsInstance(resp.data, list)
-        self.assertGreaterEqual(len(resp.data), 2)
-        first = resp.data[0]
+        data = (
+            resp.data["results"]
+            if isinstance(resp.data, dict) and "results" in resp.data
+            else resp.data
+        )
+        self.assertIsInstance(data, list)
+        self.assertGreaterEqual(len(data), 2)
+        first = data[0]
         self.assertIn("id", first)
         self.assertIn("status", first)
         self.assertIn("payment_type", first)

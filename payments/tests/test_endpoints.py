@@ -29,7 +29,12 @@ class PaymentEndpointsTests(TestCase):
 
         resp = self.client.get(self.list_url)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        ids = [item["id"] for item in resp.data]
+        items = (
+            resp.data["results"]
+            if isinstance(resp.data, dict) and "results" in resp.data
+            else resp.data
+        )
+        ids = [item["id"] for item in items]
         self.assertGreaterEqual(len(ids), 2)
         self.assertGreater(ids[0], ids[1])
         self.assertIn(p1.id, ids)
