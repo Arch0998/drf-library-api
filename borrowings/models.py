@@ -17,16 +17,19 @@ class Borrowing(models.Model):
         on_delete=models.CASCADE,
         related_name="borrowings"
     )
+
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=models.Q(expected_return_date__gte=models.F("borrow_date")),
+                check=models.Q(
+                    expected_return_date__gte=models.F("borrow_date")
+                ),
                 name="expected_after_borrow",
             ),
             models.CheckConstraint(
                 check=(
-                    models.Q(actual_return_date__isnull=True) |
-                    models.Q(actual_return_date__gte=models.F("borrow_date"))
+                    models.Q(actual_return_date__isnull=True)
+                    | models.Q(actual_return_date__gte=models.F("borrow_date"))
                 ),
                 name="actual_after_borrow",
             ),
