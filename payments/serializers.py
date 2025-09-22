@@ -1,8 +1,14 @@
 from rest_framework import serializers
 from payments.models import Payment, PaymentStatus, PaymentType
+from borrowings.models import Borrowing
 
 
 class PaymentSerializer(serializers.ModelSerializer):
+    borrowing_id = serializers.PrimaryKeyRelatedField(
+        source="borrowing",
+        queryset=Borrowing.objects.all(),
+    )
+
     class Meta:
         model = Payment
         fields = [
@@ -30,7 +36,5 @@ class PaymentSerializer(serializers.ModelSerializer):
         if value is None:
             raise serializers.ValidationError("money_to_pay is required")
         if value < 0:
-            raise serializers.ValidationError(
-                "money_to_pay must be non-negative"
-            )
+            raise serializers.ValidationError("money_to_pay must be non-negative")
         return value
