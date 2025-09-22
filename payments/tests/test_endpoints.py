@@ -105,10 +105,20 @@ class PaymentEndpointsTests(TestCase):
         )
         detail_url = reverse("payments-detail", args=[p.id])
 
-        resp_patch = self.client.patch(detail_url, data={"status": PaymentStatus.PAID}, format="json")
-        resp_put = self.client.put(detail_url, data={"status": PaymentStatus.PAID}, format="json")
+        resp_patch = self.client.patch(
+            detail_url, data={"status": PaymentStatus.PAID}, format="json"
+        )
+        resp_put = self.client.put(
+            detail_url, data={"status": PaymentStatus.PAID}, format="json"
+        )
         resp_delete = self.client.delete(detail_url)
 
-        self.assertEqual(resp_patch.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-        self.assertEqual(resp_put.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-        self.assertEqual(resp_delete.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.assertEqual(
+            resp_patch.status_code, status.HTTP_405_METHOD_NOT_ALLOWED
+        )
+        self.assertEqual(
+            resp_put.status_code, status.HTTP_405_METHOD_NOT_ALLOWED
+        )
+        self.assertEqual(
+            resp_delete.status_code, status.HTTP_405_METHOD_NOT_ALLOWED
+        )
