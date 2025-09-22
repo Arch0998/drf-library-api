@@ -2,6 +2,7 @@ from django.db.models import F
 
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
+from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.utils import timezone
@@ -9,6 +10,11 @@ from rest_framework.utils import timezone
 from borrowings.models import Borrowing
 from borrowings.serializers import BorrowingSerializer, BorrowingReturnSerializer
 
+
+class BorrowingOutOfStock(APIException):
+    status_code = 204
+    default_detail = "Book is out of stock."
+    default_code = "no_inventory"
 
 class BorrowingViewSet(viewsets.ModelViewSet):
     queryset = Borrowing.objects.all()
@@ -30,6 +36,10 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
+        book = serializer.validated_data["book"]
+        if book.inventory <= 0:
+            raise BorrowingOutOfStock()
+
         borrowing = serializer.save(user=self.request.user)
 
         borrowing.book.inventory = F("inventory") - 1
