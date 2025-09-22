@@ -1,20 +1,18 @@
-from django.contrib.auth import get_user_model
-
 from rest_framework.test import APITestCase
-
-from users.serializers import RegisterSerializer, UserSerializer
-
-
-User = get_user_model()
 
 
 class UserSerializerTests(APITestCase):
     def setUp(self):
+        from django.contrib.auth import get_user_model
+
+        User = get_user_model()
         self.user = User.objects.create_user(
             email="user@example.com", password="InitialPass123"
         )
 
     def test_register_user(self):
+        from users.serializers import RegisterSerializer
+
         data = {"email": "newuser@example.com", "password": "StrongPass123"}
         serializer = RegisterSerializer(data=data)
         self.assertTrue(serializer.is_valid(), serializer.errors)
@@ -23,6 +21,8 @@ class UserSerializerTests(APITestCase):
         self.assertTrue(user.check_password("StrongPass123"))
 
     def test_update_email(self):
+        from users.serializers import UserSerializer
+
         serializer = UserSerializer(
             instance=self.user, data={"email": "new@example.com"}, partial=True
         )
@@ -31,6 +31,8 @@ class UserSerializerTests(APITestCase):
         self.assertEqual(updated_user.email, "new@example.com")
 
     def test_update_password(self):
+        from users.serializers import UserSerializer
+
         serializer = UserSerializer(
             instance=self.user,
             data={"password": "NewStrongPass123"},
@@ -41,6 +43,10 @@ class UserSerializerTests(APITestCase):
         self.assertTrue(updated_user.check_password("NewStrongPass123"))
 
     def test_email_uniqueness_validation(self):
+        from django.contrib.auth import get_user_model
+        from users.serializers import UserSerializer
+
+        User = get_user_model()
         other_user = User.objects.create_user(
             email="taken@example.com", password="SomePass123"
         )
