@@ -9,6 +9,14 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+      DJANGO_SETTINGS_MODULE: core.settings.dev
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5432
     services:
       postgres:
         image: postgres:16
@@ -16,10 +24,6 @@ jobs:
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-          DJANGO_SETTINGS_MODULE: core.settings.dev
         ports:
           - 5432:5432
         options: >-
@@ -44,9 +48,6 @@ jobs:
 
       - name: Run flake8
         run: flake8 .
-
-      - name: Set DJANGO_SETTINGS_MODULE
-        run: echo "DJANGO_SETTINGS_MODULE=core.settings.dev" >> $GITHUB_ENV
 
       - name: Run tests with coverage
         run: pytest --cov=.
