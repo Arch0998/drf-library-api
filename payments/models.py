@@ -47,7 +47,7 @@ class Payment(models.Model):
     money_to_pay = models.DecimalField(max_digits=10, decimal_places=2)
 
     """
-    Constraints and indexes. 
+    Constraints and indexes.
     Can be used only after Borrowing model implementation.
     """
 
