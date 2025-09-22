@@ -7,10 +7,9 @@ User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
     """Serializer used only for registering a new user."""
+
     password = serializers.CharField(
-        write_only=True,
-        min_length=8,
-        style={"input_type": "password"}
+        write_only=True, min_length=8, style={"input_type": "password"}
     )
 
     class Meta:
@@ -23,11 +22,12 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for retrieving and updating user profile."""
+
     password = serializers.CharField(
         write_only=True,
         min_length=8,
         required=False,
-        style={"input_type": "password"}
+        style={"input_type": "password"},
     )
 
     class Meta:

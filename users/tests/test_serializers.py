@@ -11,8 +11,7 @@ User = get_user_model()
 class UserSerializerTests(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            email="user@example.com",
-            password="InitialPass123"
+            email="user@example.com", password="InitialPass123"
         )
 
     def test_register_user(self):
@@ -25,9 +24,7 @@ class UserSerializerTests(APITestCase):
 
     def test_update_email(self):
         serializer = UserSerializer(
-            instance=self.user,
-            data={"email": "new@example.com"},
-            partial=True
+            instance=self.user, data={"email": "new@example.com"}, partial=True
         )
         self.assertTrue(serializer.is_valid(), serializer.errors)
         updated_user = serializer.save()
@@ -37,7 +34,7 @@ class UserSerializerTests(APITestCase):
         serializer = UserSerializer(
             instance=self.user,
             data={"password": "NewStrongPass123"},
-            partial=True
+            partial=True,
         )
         self.assertTrue(serializer.is_valid(), serializer.errors)
         updated_user = serializer.save()
@@ -45,13 +42,12 @@ class UserSerializerTests(APITestCase):
 
     def test_email_uniqueness_validation(self):
         other_user = User.objects.create_user(
-            email="taken@example.com",
-            password="SomePass123"
+            email="taken@example.com", password="SomePass123"
         )
         serializer = UserSerializer(
             instance=self.user,
             data={"email": "taken@example.com"},
-            partial=True
+            partial=True,
         )
         self.assertFalse(serializer.is_valid())
         self.assertIn("email", serializer.errors)
