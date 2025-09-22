@@ -1,10 +1,6 @@
-from django.urls import path, include
-from rest_framework.routers import SimpleRouter
-from payments.api import PaymentViewSet
+from django.urls import path
 
 
-router = SimpleRouter()
-router.register(r"payments", PaymentViewSet, basename="payments")
 urlpatterns = [
-    path("", include(router.urls))
+    # Define your URL patterns here
 ]
