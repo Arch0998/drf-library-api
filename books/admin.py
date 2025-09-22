@@ -15,6 +15,4 @@ class BookAdmin(admin.ModelAdmin):
         "title",
         "author",
     )
-    list_filter = (
-        "cover",
-    )
+    list_filter = ("cover",)
