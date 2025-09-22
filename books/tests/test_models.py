@@ -22,7 +22,7 @@ class BookModelTest(TestCase):
             cover="HARD",
             inventory=-5,
             daily_fee=10,
-            )
+        )
         with self.assertRaises(ValidationError):
             book.full_clean()
 
@@ -33,7 +33,7 @@ class BookModelTest(TestCase):
             cover="HARD",
             inventory=5,
             daily_fee=2.5,
-            )
+        )
         book.full_clean()
         book.save()
         self.assertEqual(Book.objects.count(), 1)
