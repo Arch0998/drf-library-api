@@ -31,6 +31,15 @@ class UnauthenticatedBookApiTests(TestCase):
 
     def test_books_list_unauthorized(self):
         response = self.client.get(self.list_url)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK,
+        )
+
+    def test_get_valid_book_detail(self):
+        response = self.client.get(self.detail_url)
+
+        serializer = BookSerializer(self.book)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         serializer = BookSerializer(self.book)
