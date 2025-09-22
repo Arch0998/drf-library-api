@@ -8,14 +8,12 @@ class Borrowing(models.Model):
     actual_return_date = models.DateField(null=True, blank=True)
 
     book = models.ForeignKey(
-        "books.Book",
-        on_delete=models.CASCADE,
-        related_name="borrowings"
+        "books.Book", on_delete=models.CASCADE, related_name="borrowings"
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="borrowings"
+        related_name="borrowings",
     )
 
     class Meta:
@@ -36,8 +34,8 @@ class Borrowing(models.Model):
             models.UniqueConstraint(
                 fields=["book", "user"],
                 condition=models.Q(actual_return_date__isnull=True),
-                name="unique_active_borrowing"
-            )
+                name="unique_active_borrowing",
+            ),
         ]
 
     def __str__(self):
