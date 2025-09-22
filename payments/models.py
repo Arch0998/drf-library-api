@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q # noqa
 
 
 class PaymentStatus(models.TextChoices):
@@ -30,12 +30,17 @@ class Payment(models.Model):
         db_index=True,
     )
 
-    borrowing = models.ForeignKey(
-        "borrowings.Borrowing",
-        on_delete=models.PROTECT,
-        related_name="payments",
-        db_index=True,
-    )
+    """Implemented as ForeignKey to Borrowing model. After Borrowing model implementation,
+    this field will be used to store the borrowing that is being paid for."""
+    # borrowing = models.ForeignKey(
+    #     "borrowings.Borrowing",
+    #     on_delete=models.PROTECT,
+    #     related_name="payments",
+    #     db_index=True,
+    # )
+    """Temporary field to store borrowing id. Before Borrowing model implementation use this field
+    to store the borrowing that is being paid for."""
+    borrowing_id = models.PositiveIntegerField(db_index=True)
 
     session_url = models.URLField(max_length=512, blank=True, null=True)
     session_id = models.CharField(
@@ -44,6 +49,7 @@ class Payment(models.Model):
 
     money_to_pay = models.DecimalField(max_digits=10, decimal_places=2)
 
+    """Constraints and indexes. Can be used only after Borrowing model implementation."""
     class Meta:
         db_table = "payment"
         constraints = [
@@ -52,13 +58,13 @@ class Payment(models.Model):
                 name="money_to_pay_non_negative",
             ),
             models.UniqueConstraint(
-                fields=["borrowing", "type"],
+                fields=["borrowing_id", "payment_type"],
                 condition=Q(status=PaymentStatus.PENDING),
-                name="uniq_pending_payment_per_borrowing_type",
+                name="uniq_pending_payment_per_borrowing_type_tmp",
             ),
         ]
 
     def __str__(self):
         return f"""Payment(id={self.pk}, status={self.status},
-        type={self.type}, borrowing_id={self.borrowing_id},
+        type={self.payment_type}, borrowing_id={self.borrowing_id},
         amount={self.money_to_pay} USD)"""
