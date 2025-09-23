@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.db.models import F
 
 from rest_framework import viewsets, status, serializers, filters
@@ -34,6 +35,7 @@ class BorrowingViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(actual_return_date__isnull=False)
         return queryset
 
+    @transaction.atomic
     def perform_create(self, serializer):
         book = serializer.validated_data["book"]
         if book.inventory <= 0:
