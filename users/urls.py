@@ -19,7 +19,11 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path(
-        "me/", ManageUserViewSet.as_view({"get": "retrieve", "put": "update"})
+        "me/",
+        ManageUserViewSet.as_view(
+            {"get": "retrieve", "put": "update", "patch": "partial_update"}
+        ),
+        name="me",
     ),
 ]
 
