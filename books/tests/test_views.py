@@ -31,15 +31,6 @@ class UnauthenticatedBookApiTests(TestCase):
 
     def test_books_list_unauthorized(self):
         response = self.client.get(self.list_url)
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_200_OK,
-        )
-
-    def test_get_valid_book_detail(self):
-        response = self.client.get(self.detail_url)
-
-        serializer = BookSerializer(self.book)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         serializer = BookSerializer(self.book)
@@ -86,6 +77,26 @@ class AuthenticatedBookApiTests(TestCase):
         response = self.client.post(self.list_url, data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+    def test_cannot_put_update_book(self):
+        data = {
+            "title": "Updated Book Title",
+            "author": "Updated Author",
+            "cover": "SOFT",
+            "inventory": 15,
+            "daily_fee": 12.99,
+        }
+        response = self.client.put(self.detail_url, data)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_cannot_patch_update_book(self):
+        data = {"inventory": 25}
+        response = self.client.patch(self.detail_url, data)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_cannot_delete_book(self):
+        response = self.client.delete(self.detail_url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
 
 class StaffBookApiTests(TestCase):
     def setUp(self):
@@ -113,3 +124,70 @@ class StaffBookApiTests(TestCase):
         created_book = Book.objects.get(title="Staff Book")
         serializer = BookSerializer(created_book)
         self.assertEqual(response.data, serializer.data)
+
+    def test_staff_can_put_update_book(self):
+        data = {
+            "title": "Updated Book Title",
+            "author": "Updated Author",
+            "cover": "SOFT",
+            "inventory": 15,
+            "daily_fee": 12.99,
+        }
+        response = self.client.put(self.detail_url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.book.refresh_from_db()
+        serializer = BookSerializer(self.book)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_staff_can_patch_update_inventory(self):
+        data = {"inventory": 30}
+        response = self.client.patch(self.detail_url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.book.refresh_from_db()
+        serializer = BookSerializer(self.book)
+        self.assertEqual(response.data, serializer.data)
+
+    def test_staff_cannot_update_with_invalid_inventory(self):
+        data = {"inventory": -5}
+        response = self.client.patch(self.detail_url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("inventory", response.data)
+
+    def test_staff_cannot_update_with_invalid_daily_fee(self):
+        data = {"daily_fee": -10.00}
+        response = self.client.patch(self.detail_url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("daily_fee", response.data)
+
+    def test_staff_cannot_update_with_invalid_cover(self):
+        data = {"cover": "INVALID"}
+        response = self.client.patch(self.detail_url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("cover", response.data)
+
+    def test_staff_cannot_update_with_duplicate_title_author_cover(self):
+        Book.objects.create(
+            title="Another Book",
+            author="Another Author",
+            cover="HARD",
+            inventory=3,
+            daily_fee=8.99,
+        )
+
+        data = {
+            "title": "Another Book",
+            "author": "Another Author",
+            "cover": "HARD",
+            "inventory": 10,
+            "daily_fee": 9.99,
+        }
+        response = self.client.put(self.detail_url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("non_field_errors", response.data)
+
+    def test_staff_can_delete_book(self):
+        response = self.client.delete(self.detail_url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Book.objects.count(), 0)
