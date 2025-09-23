@@ -25,10 +25,7 @@ class BorrowingSerializer(serializers.ModelSerializer):
             and expected_return_date <= borrow_date
         ):
             raise serializers.ValidationError(
-                {
-                    "expected_return_date":
-                        "Expected return date must be after borrow date."
-                }
+                {"expected_return_date": "Expected return date too early"}
             )
 
         return attrs
@@ -49,10 +46,7 @@ class BorrowingReturnSerializer(serializers.ModelSerializer):
             and actual_return_date < borrow_date
         ):
             raise serializers.ValidationError(
-                {
-                    "actual_return_date":
-                        "Actual return date cannot be before borrow date."
-                }
+                {"actual_return_date": "Return date too early."}
             )
 
         return attrs
