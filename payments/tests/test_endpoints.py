@@ -15,7 +15,7 @@ from borrowings.models import Borrowing
 class PaymentEndpointsTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.list_url = reverse("payments-list")
+        self.list_url = reverse("payments:payment-list")
         self.user = get_user_model().objects.create_user(
             email="user2@example.com", password="testpass123"
         )

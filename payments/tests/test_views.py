@@ -40,7 +40,7 @@ class PaymentViewSetTests(TestCase):
 
     def test_create_payment_success(self):
         borrowing = self._create_borrowing()
-        url = reverse("payments-list")
+        url = reverse("payments:payment-list")
         payload = {
             "payment_type": PaymentType.PAYMENT,
             "borrowing_id": borrowing.id,
@@ -55,7 +55,7 @@ class PaymentViewSetTests(TestCase):
 
     def test_create_payment_invalid_status(self):
         borrowing = self._create_borrowing()
-        url = reverse("payments-list")
+        url = reverse("payments:payment-list")
         payload = {
             "status": "INVALID",
             "payment_type": PaymentType.PAYMENT,

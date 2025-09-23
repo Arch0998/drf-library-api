@@ -1,7 +1,16 @@
+import stripe
+from django.conf import settings
 from drf_spectacular.utils import extend_schema_view, extend_schema
-from rest_framework import mixins, viewsets
+from rest_framework.response import Response
+from rest_framework import mixins, viewsets, status
+from rest_framework.views import APIView
+
 from payments.models import Payment
-from payments.serializers import PaymentSerializer
+from payments.serializers import (
+    PaymentSerializer,
+    PaymentListSerializer,
+    PaymentDetailSerializer,
+)
 
 
 @extend_schema_view(
@@ -29,15 +38,15 @@ class PaymentViewSet(
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
-    """
-    ViewSet for Payment:
-    - list: GET /payments/
-    - create: POST /payments/
-    - retrieve: GET /payments/{id}/
-    """
 
     queryset = Payment.objects.select_related("borrowing")
-    serializer_class = PaymentSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return PaymentListSerializer
+        if self.action == "retrieve":
+            return PaymentDetailSerializer
+        return PaymentSerializer
 
     def get_queryset(self):
         queryset = Payment.objects.select_related("borrowing")
@@ -45,3 +54,63 @@ class PaymentViewSet(
         if not user.is_staff:
             queryset = queryset.filter(borrowing__user=user)
         return queryset
+
+
+class PaymentSuccessView(APIView):
+    """Handle successful payment callback from Stripe"""
+
+    def get(self, request):
+        session_id = request.GET.get("session_id")
+
+        if not session_id:
+            return Response(
+                {"error": "Session ID not provided"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            stripe.api_key = settings.STRIPE_SECRET_KEY
+            session = stripe.checkout.Session.retrieve(session_id)
+
+            payment = Payment.objects.get(session_id=session_id)
+
+            if session.payment_status == "paid":
+                payment.status = "PAID"
+                payment.save()
+
+                return Response(
+                    {
+                        "message": "Payment successful!",
+                        "payment_id": payment.id,
+                    }
+                )
+            else:
+                return Response(
+                    {"message": "Payment not completed yet"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        except Payment.DoesNotExist:
+            return Response(
+                {"error": "Payment not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        except stripe.error.StripeError as e:
+            return Response(
+                {"error": f"Stripe error: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
+class PaymentCancelView(APIView):
+    """Handle cancelled payment from Stripe"""
+
+    def get(self, request):
+        return Response(
+            {
+                "message": "Payment was cancelled."
+                " You can complete the payment later,"
+                " but the session is available"
+                " for only 24 hours."
+            }
+        )
