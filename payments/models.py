@@ -1,10 +1,15 @@
 from django.db import models
 from django.db.models import Q  # noqa
 
+from borrowings.models import Borrowing
+
 
 class PaymentStatus(models.TextChoices):
     PENDING = "PENDING", "PENDING"
     PAID = "PAID", "PAID"
+    CANCELLED = "CANCELLED", "CANCELLED"
+    EXCEEDED = "EXCEEDED", "EXCEEDED"
+    FAILED = "FAILED", "FAILED"
 
 
 class PaymentType(models.TextChoices):
@@ -31,8 +36,8 @@ class Payment(models.Model):
     )
 
     borrowing = models.ForeignKey(
-        "borrowings.Borrowing",
-        on_delete=models.PROTECT,
+        Borrowing,
+        on_delete=models.CASCADE,
         related_name="payments",
         db_index=True,
         null=True,
