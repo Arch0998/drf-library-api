@@ -1,0 +1,1167 @@
+[
+  {
+    "model": "books.book",
+    "pk": 1,
+    "fields": {
+      "title": "The Infinite Loop",
+      "author": "Mark Lewis",
+      "cover": "HARD",
+      "inventory": 48,
+      "daily_fee": 1.63
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 2,
+    "fields": {
+      "title": "The Golden Age",
+      "author": "Patricia Martin",
+      "cover": "HARD",
+      "inventory": 48,
+      "daily_fee": 4.38
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 3,
+    "fields": {
+      "title": "Flames of Passion",
+      "author": "Linda Garcia",
+      "cover": "SOFT",
+      "inventory": 19,
+      "daily_fee": 14.5
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 4,
+    "fields": {
+      "title": "Quest for Knowledge",
+      "author": "Kenneth Wright",
+      "cover": "SOFT",
+      "inventory": 17,
+      "daily_fee": 12.12
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 5,
+    "fields": {
+      "title": "Songs of Freedom",
+      "author": "Michelle Turner",
+      "cover": "HARD",
+      "inventory": 45,
+      "daily_fee": 12.22
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 6,
+    "fields": {
+      "title": "The Great Adventure",
+      "author": "Emily Johnson",
+      "cover": "SOFT",
+      "inventory": 45,
+      "daily_fee": 11.15
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 7,
+    "fields": {
+      "title": "The Midnight Hour",
+      "author": "Robert Taylor",
+      "cover": "SOFT",
+      "inventory": 16,
+      "daily_fee": 5.57
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 8,
+    "fields": {
+      "title": "The Diamond Ring",
+      "author": "Mark Lewis",
+      "cover": "HARD",
+      "inventory": 35,
+      "daily_fee": 2.32
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 9,
+    "fields": {
+      "title": "The Silver Moon",
+      "author": "Emily Johnson",
+      "cover": "HARD",
+      "inventory": 48,
+      "daily_fee": 9.89
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 10,
+    "fields": {
+      "title": "Winds of Change",
+      "author": "Jennifer Thomas",
+      "cover": "SOFT",
+      "inventory": 1,
+      "daily_fee": 6.72
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 11,
+    "fields": {
+      "title": "The Golden Age",
+      "author": "Paul Allen",
+      "cover": "SOFT",
+      "inventory": 44,
+      "daily_fee": 1.67
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 12,
+    "fields": {
+      "title": "The Infinite Loop",
+      "author": "Mary White",
+      "cover": "SOFT",
+      "inventory": 19,
+      "daily_fee": 11.35
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 13,
+    "fields": {
+      "title": "Castles in the Air",
+      "author": "Sandra Scott",
+      "cover": "HARD",
+      "inventory": 10,
+      "daily_fee": 13.14
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 14,
+    "fields": {
+      "title": "Art of Living",
+      "author": "Carol Gonzalez",
+      "cover": "SOFT",
+      "inventory": 17,
+      "daily_fee": 7.33
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 15,
+    "fields": {
+      "title": "Path to Enlightenment",
+      "author": "Elizabeth Robinson",
+      "cover": "HARD",
+      "inventory": 16,
+      "daily_fee": 1.11
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 16,
+    "fields": {
+      "title": "Shadows of Yesterday",
+      "author": "Michael Brown",
+      "cover": "HARD",
+      "inventory": 2,
+      "daily_fee": 14.94
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 17,
+    "fields": {
+      "title": "Whispers in the Dark",
+      "author": "Dorothy King",
+      "cover": "SOFT",
+      "inventory": 36,
+      "daily_fee": 4.02
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 18,
+    "fields": {
+      "title": "Secrets of the Ancient World",
+      "author": "Christopher Nelson",
+      "cover": "HARD",
+      "inventory": 3,
+      "daily_fee": 1.75
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 19,
+    "fields": {
+      "title": "The Last Kingdom",
+      "author": "Jennifer Thomas",
+      "cover": "SOFT",
+      "inventory": 28,
+      "daily_fee": 2.68
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 20,
+    "fields": {
+      "title": "The Steel Fortress",
+      "author": "Sandra Scott",
+      "cover": "HARD",
+      "inventory": 35,
+      "daily_fee": 14.49
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 21,
+    "fields": {
+      "title": "The Glass House",
+      "author": "Michael Brown",
+      "cover": "SOFT",
+      "inventory": 11,
+      "daily_fee": 1.57
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 22,
+    "fields": {
+      "title": "The Infinite Loop",
+      "author": "Sarah Davis",
+      "cover": "SOFT",
+      "inventory": 16,
+      "daily_fee": 10.81
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 23,
+    "fields": {
+      "title": "The Purple Mountain",
+      "author": "Mary White",
+      "cover": "HARD",
+      "inventory": 13,
+      "daily_fee": 9.69
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 24,
+    "fields": {
+      "title": "Winds of Change",
+      "author": "Matthew Mitchell",
+      "cover": "SOFT",
+      "inventory": 20,
+      "daily_fee": 4.15
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 25,
+    "fields": {
+      "title": "Digital Revolution",
+      "author": "Christopher Nelson",
+      "cover": "SOFT",
+      "inventory": 1,
+      "daily_fee": 1.94
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 26,
+    "fields": {
+      "title": "The Silent Storm",
+      "author": "Dorothy King",
+      "cover": "HARD",
+      "inventory": 33,
+      "daily_fee": 6.69
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 27,
+    "fields": {
+      "title": "Tales from the Past",
+      "author": "Dorothy King",
+      "cover": "SOFT",
+      "inventory": 17,
+      "daily_fee": 0.95
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 28,
+    "fields": {
+      "title": "Dreams and Reality",
+      "author": "Anthony Roberts",
+      "cover": "HARD",
+      "inventory": 2,
+      "daily_fee": 13.58
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 29,
+    "fields": {
+      "title": "Dreams and Reality",
+      "author": "Christopher Nelson",
+      "cover": "HARD",
+      "inventory": 7,
+      "daily_fee": 5.55
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 30,
+    "fields": {
+      "title": "The Golden Key",
+      "author": "Anthony Roberts",
+      "cover": "SOFT",
+      "inventory": 25,
+      "daily_fee": 10.7
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 31,
+    "fields": {
+      "title": "The Pearl of Wisdom",
+      "author": "Ruth Carter",
+      "cover": "HARD",
+      "inventory": 3,
+      "daily_fee": 7.52
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 32,
+    "fields": {
+      "title": "Rivers of Time",
+      "author": "Kenneth Wright",
+      "cover": "HARD",
+      "inventory": 25,
+      "daily_fee": 9.41
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 33,
+    "fields": {
+      "title": "The Hidden Truth",
+      "author": "Charles Baker",
+      "cover": "SOFT",
+      "inventory": 17,
+      "daily_fee": 1.06
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 34,
+    "fields": {
+      "title": "Voices from Above",
+      "author": "Joseph Hill",
+      "cover": "HARD",
+      "inventory": 1,
+      "daily_fee": 5.18
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 35,
+    "fields": {
+      "title": "Castles in the Air",
+      "author": "Matthew Martinez",
+      "cover": "HARD",
+      "inventory": 22,
+      "daily_fee": 1.24
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 36,
+    "fields": {
+      "title": "The Midnight Hour",
+      "author": "Christopher Thompson",
+      "cover": "HARD",
+      "inventory": 48,
+      "daily_fee": 4.97
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 37,
+    "fields": {
+      "title": "Secrets of Success",
+      "author": "Elizabeth Robinson",
+      "cover": "HARD",
+      "inventory": 47,
+      "daily_fee": 1.64
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 38,
+    "fields": {
+      "title": "The Golden Age",
+      "author": "Paul Allen",
+      "cover": "HARD",
+      "inventory": 6,
+      "daily_fee": 13.78
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 39,
+    "fields": {
+      "title": "The Glass House",
+      "author": "Dorothy King",
+      "cover": "SOFT",
+      "inventory": 30,
+      "daily_fee": 11.11
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 40,
+    "fields": {
+      "title": "Flames of Passion",
+      "author": "Sarah Davis",
+      "cover": "SOFT",
+      "inventory": 39,
+      "daily_fee": 1.14
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 41,
+    "fields": {
+      "title": "Future Horizons",
+      "author": "Jennifer Thomas",
+      "cover": "SOFT",
+      "inventory": 25,
+      "daily_fee": 9.69
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 42,
+    "fields": {
+      "title": "Quest for Knowledge",
+      "author": "Patricia Martin",
+      "cover": "SOFT",
+      "inventory": 27,
+      "daily_fee": 14.95
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 43,
+    "fields": {
+      "title": "Bridges to Tomorrow",
+      "author": "Lisa Lopez",
+      "cover": "SOFT",
+      "inventory": 29,
+      "daily_fee": 0.58
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 44,
+    "fields": {
+      "title": "The Silent Storm",
+      "author": "Robert Taylor",
+      "cover": "HARD",
+      "inventory": 37,
+      "daily_fee": 11.41
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 45,
+    "fields": {
+      "title": "Mystery of the Lost City",
+      "author": "Thomas Green",
+      "cover": "HARD",
+      "inventory": 19,
+      "daily_fee": 4.82
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 46,
+    "fields": {
+      "title": "Whispers in the Dark",
+      "author": "Christopher Thompson",
+      "cover": "SOFT",
+      "inventory": 23,
+      "daily_fee": 0.92
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 47,
+    "fields": {
+      "title": "The Crimson Tide",
+      "author": "Nancy Lee",
+      "cover": "HARD",
+      "inventory": 48,
+      "daily_fee": 12.52
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 48,
+    "fields": {
+      "title": "Art of Living",
+      "author": "Donna Adams",
+      "cover": "HARD",
+      "inventory": 32,
+      "daily_fee": 0.99
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 49,
+    "fields": {
+      "title": "The Copper Crown",
+      "author": "Donna Adams",
+      "cover": "SOFT",
+      "inventory": 21,
+      "daily_fee": 9.79
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 50,
+    "fields": {
+      "title": "Shadows of the Mind",
+      "author": "Thomas Green",
+      "cover": "HARD",
+      "inventory": 28,
+      "daily_fee": 11.18
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 51,
+    "fields": {
+      "title": "The Diamond Ring",
+      "author": "Michelle Turner",
+      "cover": "SOFT",
+      "inventory": 22,
+      "daily_fee": 13.54
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 52,
+    "fields": {
+      "title": "The Golden Age",
+      "author": "Michelle Turner",
+      "cover": "SOFT",
+      "inventory": 6,
+      "daily_fee": 7.57
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 53,
+    "fields": {
+      "title": "Secrets of Success",
+      "author": "Michelle Turner",
+      "cover": "HARD",
+      "inventory": 17,
+      "daily_fee": 10.89
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 54,
+    "fields": {
+      "title": "Oceans of Wonder",
+      "author": "Ruth Carter",
+      "cover": "SOFT",
+      "inventory": 22,
+      "daily_fee": 7.73
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 55,
+    "fields": {
+      "title": "The Hidden Truth",
+      "author": "Patricia Martin",
+      "cover": "HARD",
+      "inventory": 26,
+      "daily_fee": 11.3
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 56,
+    "fields": {
+      "title": "Secrets of the Ancient World",
+      "author": "Michelle Turner",
+      "cover": "SOFT",
+      "inventory": 33,
+      "daily_fee": 13.82
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 57,
+    "fields": {
+      "title": "Science and Nature",
+      "author": "Anthony Roberts",
+      "cover": "SOFT",
+      "inventory": 22,
+      "daily_fee": 5.89
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 58,
+    "fields": {
+      "title": "Whispers in the Dark",
+      "author": "Betty Young",
+      "cover": "HARD",
+      "inventory": 11,
+      "daily_fee": 8.44
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 59,
+    "fields": {
+      "title": "Whispers in the Dark",
+      "author": "Ruth Carter",
+      "cover": "HARD",
+      "inventory": 19,
+      "daily_fee": 7.02
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 60,
+    "fields": {
+      "title": "Secrets of Success",
+      "author": "Christopher Nelson",
+      "cover": "SOFT",
+      "inventory": 16,
+      "daily_fee": 1.69
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 61,
+    "fields": {
+      "title": "The Hidden Truth",
+      "author": "Steven Walker",
+      "cover": "HARD",
+      "inventory": 18,
+      "daily_fee": 3.04
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 62,
+    "fields": {
+      "title": "Gardens of Memory",
+      "author": "Michael Brown",
+      "cover": "SOFT",
+      "inventory": 35,
+      "daily_fee": 5.97
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 63,
+    "fields": {
+      "title": "The Steel Fortress",
+      "author": "Robert Taylor",
+      "cover": "SOFT",
+      "inventory": 12,
+      "daily_fee": 8.91
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 64,
+    "fields": {
+      "title": "The Copper Crown",
+      "author": "Dorothy King",
+      "cover": "HARD",
+      "inventory": 23,
+      "daily_fee": 11.51
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 65,
+    "fields": {
+      "title": "Songs of Freedom",
+      "author": "Karen Hall",
+      "cover": "HARD",
+      "inventory": 34,
+      "daily_fee": 3.4
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 66,
+    "fields": {
+      "title": "Shadows of Yesterday",
+      "author": "Dorothy King",
+      "cover": "SOFT",
+      "inventory": 8,
+      "daily_fee": 0.82
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 67,
+    "fields": {
+      "title": "The Steel Fortress",
+      "author": "Elizabeth Robinson",
+      "cover": "HARD",
+      "inventory": 2,
+      "daily_fee": 10.79
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 68,
+    "fields": {
+      "title": "Castles in the Air",
+      "author": "Anthony Clark",
+      "cover": "SOFT",
+      "inventory": 30,
+      "daily_fee": 2.6
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 69,
+    "fields": {
+      "title": "The Glass House",
+      "author": "Linda Garcia",
+      "cover": "HARD",
+      "inventory": 7,
+      "daily_fee": 14.64
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 70,
+    "fields": {
+      "title": "The Ruby Slippers",
+      "author": "Carol Gonzalez",
+      "cover": "SOFT",
+      "inventory": 9,
+      "daily_fee": 2.08
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 71,
+    "fields": {
+      "title": "The Purple Mountain",
+      "author": "Carol Gonzalez",
+      "cover": "SOFT",
+      "inventory": 38,
+      "daily_fee": 13.86
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 72,
+    "fields": {
+      "title": "Secrets of the Ancient World",
+      "author": "David Wilson",
+      "cover": "SOFT",
+      "inventory": 19,
+      "daily_fee": 3.75
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 73,
+    "fields": {
+      "title": "Mountains of Hope",
+      "author": "Anthony Clark",
+      "cover": "HARD",
+      "inventory": 37,
+      "daily_fee": 8.87
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 74,
+    "fields": {
+      "title": "Art of Living",
+      "author": "Daniel Hernandez",
+      "cover": "HARD",
+      "inventory": 27,
+      "daily_fee": 5.87
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 75,
+    "fields": {
+      "title": "The Pearl of Wisdom",
+      "author": "Dorothy King",
+      "cover": "SOFT",
+      "inventory": 17,
+      "daily_fee": 14.14
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 76,
+    "fields": {
+      "title": "Beyond the Stars",
+      "author": "Paul Allen",
+      "cover": "HARD",
+      "inventory": 12,
+      "daily_fee": 8.92
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 77,
+    "fields": {
+      "title": "Future Horizons",
+      "author": "Lisa Anderson",
+      "cover": "HARD",
+      "inventory": 13,
+      "daily_fee": 4.16
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 78,
+    "fields": {
+      "title": "The Great Adventure",
+      "author": "Christopher Nelson",
+      "cover": "SOFT",
+      "inventory": 24,
+      "daily_fee": 5.92
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 79,
+    "fields": {
+      "title": "The Copper Crown",
+      "author": "Anthony Roberts",
+      "cover": "SOFT",
+      "inventory": 18,
+      "daily_fee": 0.74
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 80,
+    "fields": {
+      "title": "Bridges to Tomorrow",
+      "author": "Ruth Carter",
+      "cover": "HARD",
+      "inventory": 24,
+      "daily_fee": 4.99
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 81,
+    "fields": {
+      "title": "The Hidden Truth",
+      "author": "Mark Lewis",
+      "cover": "HARD",
+      "inventory": 42,
+      "daily_fee": 2.51
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 82,
+    "fields": {
+      "title": "The Midnight Hour",
+      "author": "Karen Hall",
+      "cover": "HARD",
+      "inventory": 4,
+      "daily_fee": 12.28
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 83,
+    "fields": {
+      "title": "Science and Nature",
+      "author": "Sharon Perez",
+      "cover": "SOFT",
+      "inventory": 7,
+      "daily_fee": 10.75
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 84,
+    "fields": {
+      "title": "The Infinite Loop",
+      "author": "Donna Adams",
+      "cover": "SOFT",
+      "inventory": 22,
+      "daily_fee": 13.31
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 85,
+    "fields": {
+      "title": "The Ruby Slippers",
+      "author": "James Harris",
+      "cover": "SOFT",
+      "inventory": 25,
+      "daily_fee": 1.63
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 86,
+    "fields": {
+      "title": "The Great Adventure",
+      "author": "Thomas Green",
+      "cover": "SOFT",
+      "inventory": 7,
+      "daily_fee": 6.15
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 87,
+    "fields": {
+      "title": "Winds of Change",
+      "author": "Steven Walker",
+      "cover": "SOFT",
+      "inventory": 40,
+      "daily_fee": 13.01
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 88,
+    "fields": {
+      "title": "The Purple Mountain",
+      "author": "Kenneth Wright",
+      "cover": "SOFT",
+      "inventory": 11,
+      "daily_fee": 7.09
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 89,
+    "fields": {
+      "title": "The Golden Age",
+      "author": "Lisa Lopez",
+      "cover": "SOFT",
+      "inventory": 38,
+      "daily_fee": 13.09
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 90,
+    "fields": {
+      "title": "Science and Nature",
+      "author": "David Wilson",
+      "cover": "HARD",
+      "inventory": 40,
+      "daily_fee": 9.81
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 91,
+    "fields": {
+      "title": "Whispers in the Dark",
+      "author": "Jennifer Thomas",
+      "cover": "SOFT",
+      "inventory": 15,
+      "daily_fee": 6.11
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 92,
+    "fields": {
+      "title": "Tales from the Past",
+      "author": "Mary White",
+      "cover": "SOFT",
+      "inventory": 39,
+      "daily_fee": 9.66
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 93,
+    "fields": {
+      "title": "Whispers in the Dark",
+      "author": "Ruth Carter",
+      "cover": "SOFT",
+      "inventory": 34,
+      "daily_fee": 12.3
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 94,
+    "fields": {
+      "title": "Quest for Knowledge",
+      "author": "Elizabeth Robinson",
+      "cover": "SOFT",
+      "inventory": 24,
+      "daily_fee": 12.96
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 95,
+    "fields": {
+      "title": "Mysteries Unveiled",
+      "author": "Thomas Green",
+      "cover": "SOFT",
+      "inventory": 3,
+      "daily_fee": 13.03
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 96,
+    "fields": {
+      "title": "Whispers in the Dark",
+      "author": "Lisa Anderson",
+      "cover": "SOFT",
+      "inventory": 47,
+      "daily_fee": 8.42
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 97,
+    "fields": {
+      "title": "The Silver Sword",
+      "author": "Helen Rodriguez",
+      "cover": "HARD",
+      "inventory": 15,
+      "daily_fee": 8.64
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 98,
+    "fields": {
+      "title": "The Silver Sword",
+      "author": "James Harris",
+      "cover": "SOFT",
+      "inventory": 47,
+      "daily_fee": 12.89
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 99,
+    "fields": {
+      "title": "Gardens of Memory",
+      "author": "Nancy Lee",
+      "cover": "HARD",
+      "inventory": 29,
+      "daily_fee": 12.21
+    }
+  },
+  {
+    "model": "books.book",
+    "pk": 100,
+    "fields": {
+      "title": "Secrets of Success",
+      "author": "Daniel Hernandez",
+      "cover": "SOFT",
+      "inventory": 39,
+      "daily_fee": 10.55
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "email": "admin_1@example.com",
+      "first_name": "Andrii",
+      "last_name": "Tkachenko",
+      "password": "pbkdf2_sha256$1000000$WDH8un3KYK5sV8VCOJS1vc$6DPCcVYaWamk/oneHwy+d8R80JFm0FT+nLihdlRSDlQ=",
+      "is_staff": true,
+      "is_superuser": true,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "email": "staff_2@example.com",
+      "first_name": "Dmytro",
+      "last_name": "Shevchenko",
+      "password": "pbkdf2_sha256$1000000$WDH8un3KYK5sV8VCOJS1vc$6DPCcVYaWamk/oneHwy+d8R80JFm0FT+nLihdlRSDlQ=",
+      "is_staff": true,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "email": "user_3@example.com",
+      "first_name": "Oleh",
+      "last_name": "Moroz",
+      "password": "pbkdf2_sha256$1000000$WDH8un3KYK5sV8VCOJS1vc$6DPCcVYaWamk/oneHwy+d8R80JFm0FT+nLihdlRSDlQ=",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+      "email": "user_4@example.com",
+      "first_name": "Olga",
+      "last_name": "Shevchenko",
+      "password": "pbkdf2_sha256$1000000$WDH8un3KYK5sV8VCOJS1vc$6DPCcVYaWamk/oneHwy+d8R80JFm0FT+nLihdlRSDlQ=",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 5,
+    "fields": {
+      "email": "user_5@example.com",
+      "first_name": "Oleh",
+      "last_name": "Kravchenko",
+      "password": "pbkdf2_sha256$1000000$WDH8un3KYK5sV8VCOJS1vc$6DPCcVYaWamk/oneHwy+d8R80JFm0FT+nLihdlRSDlQ=",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true
+    }
+  }
+]
