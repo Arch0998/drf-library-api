@@ -1,7 +1,7 @@
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import mixins, viewsets
 from payments.models import Payment
-from payments.serializers import PaymentSerializer
+from payments.serializers import PaymentSerializer, PaymentListSerializer, PaymentDetailSerializer
 
 
 @extend_schema_view(
@@ -29,19 +29,19 @@ class PaymentViewSet(
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
-    """
-    ViewSet for Payment:
-    - list: GET /payments/
-    - create: POST /payments/
-    - retrieve: GET /payments/{id}/
-    """
 
-    queryset = Payment.objects.select_related("borrowing").order_by("-id")
-    serializer_class = PaymentSerializer
+    queryset = Payment.objects.select_related("borrowing")
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return PaymentListSerializer
+        if self.action == "retrieve":
+            return PaymentDetailSerializer
+        return PaymentSerializer
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        queryset = Payment.objects.select_related("borrowing")
         user = self.request.user
-        if not user.is_authenticated or user.is_staff:
-            return qs
-        return qs.filter(borrowing__user=user)
+        if not user.is_staff:
+            queryset = queryset.filter(borrowing__user=user)
+        return queryset

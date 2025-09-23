@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from borrowings.serializers import BorrowingSerializer
 from payments.models import Payment, PaymentStatus, PaymentType
 from borrowings.models import Borrowing
 
@@ -40,3 +42,23 @@ class PaymentSerializer(serializers.ModelSerializer):
                 "money_to_pay must be non-negative"
             )
         return value
+
+
+class PaymentListSerializer(serializers.ModelSerializer):
+    borrowing = serializers.SlugRelatedField(read_only=True, slug_field="id")
+
+    class Meta:
+        model = Payment
+        fields = (
+            "id",
+            "status",
+            "payment_type",
+            "borrowing",
+            "money_to_pay",
+        )
+
+
+class PaymentDetailSerializer(PaymentSerializer):
+    borrowing = BorrowingSerializer(
+        read_only=True,
+    )
