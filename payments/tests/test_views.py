@@ -44,13 +44,13 @@ class PaymentViewSetTests(TestCase):
         url = reverse("payments:payment-list")
         payload = {
             "payment_type": PaymentType.PAYMENT,
-            "borrowing_id": borrowing.id,
+            "borrowing": borrowing.id,
             "money_to_pay": "12.34",
         }
         resp = self.client.post(url, data=payload, format="json")
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
         self.assertEqual(resp.data["payment_type"], PaymentType.PAYMENT)
-        self.assertEqual(resp.data["borrowing_id"], borrowing.id)
+        self.assertEqual(resp.data["borrowing"], borrowing.id)
         self.assertEqual(resp.data["money_to_pay"], "12.34")
         self.assertEqual(resp.data["status"], PaymentStatus.PENDING)
 
@@ -61,7 +61,7 @@ class PaymentViewSetTests(TestCase):
         payload = {
             "status": "INVALID",
             "payment_type": PaymentType.PAYMENT,
-            "borrowing_id": borrowing.id,
+            "borrowing": borrowing.id,
             "money_to_pay": "12.34",
         }
         resp = self.client.post(url, data=payload, format="json")

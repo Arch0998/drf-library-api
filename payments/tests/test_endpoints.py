@@ -45,7 +45,7 @@ class PaymentEndpointsTests(TestCase):
         borrowing = self._create_borrowing()
         payload = {
             "payment_type": PaymentType.PAYMENT,
-            "borrowing_id": borrowing.id,
+            "borrowing": borrowing.id,
             "money_to_pay": "12.34",
             "session_url": "https://malicious.example/override",
             "session_id": "fake-session",
@@ -64,7 +64,7 @@ class PaymentEndpointsTests(TestCase):
         borrowing = self._create_borrowing()
         payload = {
             "payment_type": "INVALID",
-            "borrowing_id": borrowing.id,
+            "borrowing": borrowing.id,
             "money_to_pay": "10.00",
         }
         resp = self.client.post(self.list_url, data=payload, format="json")
@@ -76,7 +76,7 @@ class PaymentEndpointsTests(TestCase):
         borrowing = self._create_borrowing()
         payload = {
             "payment_type": PaymentType.PAYMENT,
-            "borrowing_id": borrowing.id,
+            "borrowing": borrowing.id,
             "money_to_pay": "-0.01",
         }
         resp = self.client.post(self.list_url, data=payload, format="json")
