@@ -9,6 +9,8 @@ from borrowings.serializers import (
     BorrowingListSerializer,
     BorrowingSerializer,
 )
+from payments.models import Payment, PaymentType
+from payments.stripe_helper import create_stripe_session
 
 
 class BorrowingViewSet(
@@ -36,7 +38,23 @@ class BorrowingViewSet(
         return BorrowingSerializer
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        borrowing = serializer.save(user=self.request.user)
+
+        session_data = create_stripe_session(
+            borrowing=borrowing,
+            payment_type=PaymentType.PAYMENT,
+            request=self.request
+        )
+
+        Payment.objects.create(
+            borrowing=borrowing,
+            session_id=session_data['session_id'],
+            session_url=session_data['session_url'],
+            money_to_pay=session_data['amount'],
+            payment_type=PaymentType.PAYMENT,
+            status='PENDING'
+
+        )
 
     def get_queryset(self):
         queryset = super().get_queryset()
