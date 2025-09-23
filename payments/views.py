@@ -36,5 +36,12 @@ class PaymentViewSet(
     - retrieve: GET /payments/{id}/
     """
 
-    queryset = Payment.objects.all().order_by("-id")
+    queryset = Payment.objects.select_related("borrowing").order_by("-id")
     serializer_class = PaymentSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        user = self.request.user
+        if not user.is_authenticated or user.is_staff:
+            return qs
+        return qs.filter(borrowing__user=user)
