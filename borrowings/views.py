@@ -13,10 +13,12 @@ from borrowings.serializers import (
 from payments.models import Payment, PaymentType
 from payments.stripe_helper import create_stripe_session
 
+
 @extend_schema_view(
     list=extend_schema(
         summary="List Borrowings",
-        description="Staff see all borrowings, users see only their own. Supports filters.",
+        description="Staff see all borrowings,"
+        " users see only their own. Supports filters.",
         tags=["Borrowings"],
     ),
     retrieve=extend_schema(
@@ -26,7 +28,8 @@ from payments.stripe_helper import create_stripe_session
     ),
     create=extend_schema(
         summary="Create Borrowing",
-        description="Create a borrowing. A Stripe payment session is generated.",
+        description="Create a borrowing."
+        " A Stripe payment session is generated.",
         tags=["Borrowings"],
     ),
 )
