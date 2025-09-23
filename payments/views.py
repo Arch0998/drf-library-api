@@ -109,8 +109,8 @@ class PaymentCancelView(APIView):
         return Response(
             {
                 "message": "Payment was cancelled."
-                           " You can complete the payment later,"
-                           " but the session is available"
-                           " for only 24 hours."
+                " You can complete the payment later,"
+                " but the session is available"
+                " for only 24 hours."
             }
         )
