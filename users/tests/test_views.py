@@ -80,3 +80,10 @@ class AuthenticatedSystemTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         user.refresh_from_db()
         self.assertEqual(user.first_name, "Updated")
+
+    def test_unauthorized_user_gets_401_when_putting_profile(self):
+        url = "/users/me/"
+        response = self.client.put(
+            url, {"email": "unauth@test.com", "password": "NoAccess123"}
+        )
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
