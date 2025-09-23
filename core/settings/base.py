@@ -18,14 +18,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # Third-party apps
     "debug_toolbar",
     "django_filters",
     "drf_spectacular",
     "rest_framework",
     "rest_framework_simplejwt",
-
     # Local apps
     "core",
     "users",
