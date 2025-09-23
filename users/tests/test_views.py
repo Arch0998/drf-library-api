@@ -87,3 +87,22 @@ class AuthenticatedSystemTests(APITestCase):
             url, {"email": "unauth@test.com", "password": "NoAccess123"}
         )
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_update_email_to_existing_should_fail(self):
+        User = get_user_model()
+        User.objects.create_user(
+            email="taken@test.com", password="TakenPass123"
+        )
+        user = User.objects.create_user(
+            email="main@test.com", password="MainPass123"
+        )
+        token_url = "/users/token/"
+        response = self.client.post(
+            token_url, {"email": "main@test.com", "password": "MainPass123"}
+        )
+        access_token = response.data["access"]
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
+
+        response = self.client.patch("/users/me/", {"email": "taken@test.com"})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("email", response.data)
