@@ -13,4 +13,5 @@ urlpatterns = [
     path("", include(router.urls)),
     path("success/", views.PaymentSuccessView.as_view(), name="success"),
     path("cancel/", views.PaymentCancelView.as_view(), name="cancel"),
+    path("webhook/", views.StripeWebhookView.as_view(), name="stripe-webhook"),
 ]
