@@ -39,6 +39,7 @@ class PaymentViewSetTests(TestCase):
         )
 
     def test_create_payment_success(self):
+        self.client.force_authenticate(user=self.user)
         borrowing = self._create_borrowing()
         url = reverse("payments:payment-list")
         payload = {
@@ -54,6 +55,7 @@ class PaymentViewSetTests(TestCase):
         self.assertEqual(resp.data["status"], PaymentStatus.PENDING)
 
     def test_create_payment_invalid_status(self):
+        self.client.force_authenticate(user=self.user)
         borrowing = self._create_borrowing()
         url = reverse("payments:payment-list")
         payload = {
