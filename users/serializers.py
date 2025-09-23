@@ -66,3 +66,21 @@ class UserUpdateSerializer(serializers.ModelSerializer):
                 "User with this email already exists."
             )
         return value
+
+    def validate_first_name(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("First name cannot be blank.")
+        if len(value) < 2:
+            raise serializers.ValidationError(
+                "First name must be at least 2 characters long."
+            )
+        return value
+
+    def validate_last_name(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("Last name cannot be blank.")
+        if len(value) < 2:
+            raise serializers.ValidationError(
+                "Last name must be at least 2 characters long."
+            )
+        return value
