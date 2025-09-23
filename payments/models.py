@@ -10,7 +10,6 @@ class PaymentStatus(models.TextChoices):
     CANCELLED = "CANCELLED", "CANCELLED"
     EXPIRED = "EXPIRED", "EXPIRED"
     FAILED = "FAILED", "FAILED"
-    CANCELLED = "CANCELLED", "CANCELLED"
 
 
 class PaymentType(models.TextChoices):
