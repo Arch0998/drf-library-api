@@ -50,6 +50,7 @@ class User(AbstractUser):
         verbose_name = _("user")
         verbose_name_plural = _("users")
         ordering = ["-date_joined"]
+        db_table = "users"
 
     def __str__(self):
         return f"Email: {self.email}"

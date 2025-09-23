@@ -45,6 +45,7 @@ class Borrowing(models.Model):
             )
 
     class Meta:
+        db_table = "borrowings"
         constraints = [
             models.CheckConstraint(
                 check=models.Q(
