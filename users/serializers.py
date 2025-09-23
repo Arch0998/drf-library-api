@@ -28,7 +28,16 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Serializer for retrieving and updating user profile."""
+    """Read-only serializer for retrieving user profile."""
+
+    class Meta:
+        model = User
+        fields = ("id", "email", "first_name", "last_name")
+        read_only_fields = ("id", "email")
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    """Serializer for updating user profile."""
 
     password = serializers.CharField(
         write_only=True,
@@ -39,7 +48,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "email", "password")
+        fields = ("id", "email", "first_name", "last_name", "password")
         read_only_fields = ("id",)
 
     def update(self, instance, validated_data):
