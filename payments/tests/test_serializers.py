@@ -1,7 +1,11 @@
 from decimal import Decimal
 from django.test import TestCase
 from payments.models import Payment, PaymentStatus, PaymentType
-from payments.serializers import PaymentSerializer, PaymentDetailSerializer, PaymentListSerializer
+from payments.serializers import (
+    PaymentSerializer,
+    PaymentDetailSerializer,
+    PaymentListSerializer,
+)
 from borrowings.models import Borrowing
 from books.models import Book
 from django.contrib.auth import get_user_model
@@ -97,32 +101,37 @@ class PaymentSerializerTests(TestCase):
 class PaymentListSerializerTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            email="testlist@example.com",
-            password="testpass123"
+            email="testlist@example.com", password="testpass123"
         )
         self.book = Book.objects.create(
             title="Test Book List",
             author="Test Author",
             cover="HARD",
             inventory=5,
-            daily_fee=Decimal("2.50")
+            daily_fee=Decimal("2.50"),
         )
         self.borrowing = Borrowing.objects.create(
             expected_return_date=date.today() + timedelta(days=7),
             book=self.book,
-            user=self.user
+            user=self.user,
         )
         self.payment = Payment.objects.create(
             status=PaymentStatus.PENDING,
             payment_type=PaymentType.PAYMENT,
             borrowing=self.borrowing,
-            money_to_pay=Decimal("35.00")
+            money_to_pay=Decimal("35.00"),
         )
 
     def test_payment_list_serializer_fields(self):
         """Test PaymentListSerializer contains only expected fields"""
         serializer = PaymentListSerializer(instance=self.payment)
-        expected_fields = {"id", "status", "payment_type", "borrowing", "money_to_pay"}
+        expected_fields = {
+            "id",
+            "status",
+            "payment_type",
+            "borrowing",
+            "money_to_pay",
+        }
         self.assertEqual(set(serializer.data.keys()), expected_fields)
 
     def test_payment_list_serializer_borrowing_as_id(self):

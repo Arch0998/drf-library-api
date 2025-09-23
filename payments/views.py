@@ -1,7 +1,11 @@
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import mixins, viewsets
 from payments.models import Payment
-from payments.serializers import PaymentSerializer, PaymentListSerializer, PaymentDetailSerializer
+from payments.serializers import (
+    PaymentSerializer,
+    PaymentListSerializer,
+    PaymentDetailSerializer,
+)
 
 
 @extend_schema_view(
