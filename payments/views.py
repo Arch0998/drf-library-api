@@ -1,7 +1,7 @@
 import stripe
 from django.conf import settings
 from drf_spectacular.utils import extend_schema_view, extend_schema
-from requests import Response
+from rest_framework.response import Response
 from rest_framework import mixins, viewsets, status
 from rest_framework.views import APIView
 
