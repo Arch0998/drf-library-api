@@ -41,6 +41,7 @@ class PaymentEndpointsTests(TestCase):
         )
 
     def test_create_ignores_read_only_fields(self):
+        self.client.force_authenticate(user=self.user)
         borrowing = self._create_borrowing()
         payload = {
             "payment_type": PaymentType.PAYMENT,
@@ -59,6 +60,7 @@ class PaymentEndpointsTests(TestCase):
         self.assertIsNone(obj.session_id)
 
     def test_create_invalid_payment_type_returns_400(self):
+        self.client.force_authenticate(user=self.user)
         borrowing = self._create_borrowing()
         payload = {
             "payment_type": "INVALID",
@@ -70,6 +72,7 @@ class PaymentEndpointsTests(TestCase):
         self.assertIn("payment_type", resp.data)
 
     def test_create_negative_amount_returns_400(self):
+        self.client.force_authenticate(user=self.user)
         borrowing = self._create_borrowing()
         payload = {
             "payment_type": PaymentType.PAYMENT,
