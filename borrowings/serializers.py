@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from books.serializers import BookSerializer
 from borrowings.models import Borrowing
+from notifications.tasks import notify_new_borrowing
 from users.serializers import UserSerializer
 
 
@@ -69,6 +70,7 @@ class BorrowingCreateSerializer(serializers.ModelSerializer):
         book.inventory -= 1
         book.save()
         borrowing = Borrowing.objects.create(book=book, **validated_data)
+        notify_new_borrowing.delay(borrowing.id)
         return borrowing
 
     def validate_book(self, value):
