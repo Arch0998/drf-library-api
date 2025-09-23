@@ -37,3 +37,4 @@ class Book(models.Model):
         verbose_name = "Book"
         verbose_name_plural = "Books"
         unique_together = ("title", "author", "cover")
+        db_table = "books"
