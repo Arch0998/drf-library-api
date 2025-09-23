@@ -63,3 +63,20 @@ class AuthenticatedSystemTests(APITestCase):
         response = self.client.patch(url)
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_partial_update_first_name(self):
+        User = get_user_model()
+        user = User.objects.create_user(
+            email="patch@test.com", password="PatchPass123"
+        )
+        url = "/users/token/"
+        response = self.client.post(
+            url, {"email": "patch@test.com", "password": "PatchPass123"}
+        )
+        access_token = response.data["access"]
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access_token}")
+
+        response = self.client.patch("/users/me/", {"first_name": "Updated"})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        user.refresh_from_db()
+        self.assertEqual(user.first_name, "Updated")
