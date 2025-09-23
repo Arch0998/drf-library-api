@@ -2,8 +2,10 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 from datetime import date, timedelta
+
 from books.models import Book
 from borrowings.models import Borrowing
+
 
 User = get_user_model()
 
@@ -37,7 +39,9 @@ class BorrowingModelTest(TestCase):
         self.assertIsNone(borrowing.actual_return_date)
         self.assertEqual(
             str(borrowing),
-            f"{self.user} borrowed {self.book} on {borrowing.borrow_date}",
+            f"From: {borrowing.borrow_date} "
+            f"till: {borrowing.expected_return_date} "
+            f"returned: {borrowing.actual_return_date}",
         )
 
     def test_expected_return_date_constraint(self):
