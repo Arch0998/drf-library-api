@@ -8,8 +8,9 @@ class PaymentStatus(models.TextChoices):
     PENDING = "PENDING", "PENDING"
     PAID = "PAID", "PAID"
     CANCELLED = "CANCELLED", "CANCELLED"
-    EXCEEDED = "EXCEEDED", "EXCEEDED"
+    EXPIRED = "EXPIRED", "EXPIRED"
     FAILED = "FAILED", "FAILED"
+    CANCELLED = "CANCELLED", "CANCELLED"
 
 
 class PaymentType(models.TextChoices):
