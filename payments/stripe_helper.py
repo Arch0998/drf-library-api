@@ -1,0 +1,67 @@
+import stripe
+from django.conf import settings
+from django.urls import reverse
+from decimal import Decimal
+from payments.models import PaymentType
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+def create_stripe_session(
+    borrowing, payment_type=PaymentType.PAYMENT, request=None
+):
+    """
+    Create a Stripe checkout session for a borrowing.
+
+    Args:
+        borrowing: Borrowing instance
+        payment_type: PaymentType (PAYMENT or FINE)
+        request: Django request object for building absolute URIs
+
+    Returns:
+        dict: Contains session_id and session_url
+    """
+    if payment_type == PaymentType.PAYMENT:
+        borrow_days = (
+            borrowing.expected_return_date - borrowing.borrow_date
+        ).days
+        if borrow_days <= 0:
+            borrow_days = 1
+        total_price = borrowing.book.daily_fee * Decimal(borrow_days)
+        description = f"Book rental for {borrow_days} days"
+    elif payment_type == PaymentType.FINE:
+        description = "Fine for overdue book"
+
+    amount_in_cents = int(total_price * 100)
+
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "usd",
+                        "product_data": {
+                            "name": f"{payment_type}: {borrowing.book.title}",
+                            "description": description,
+                        },
+                        "unit_amount": amount_in_cents,
+                    },
+                    "quantity": 1,
+                }
+            ],
+            mode="payment",
+            success_url=request.build_absolute_uri(
+                reverse("payments:success")
+            ),
+            cancel_url=request.build_absolute_uri(reverse("payments:cancel")),
+        )
+
+        return {
+            "session_id": session.id,
+            "session_url": session.url,
+            "amount": total_price,
+        }
+
+    except stripe.error.StripeError as e:
+        raise Exception(f"Stripe error: {str(e)}")
