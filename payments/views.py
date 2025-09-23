@@ -60,12 +60,12 @@ class PaymentSuccessView(APIView):
     """Handle successful payment callback from Stripe"""
 
     def get(self, request):
-        session_id = request.GET.get('session_id')
+        session_id = request.GET.get("session_id")
 
         if not session_id:
             return Response(
                 {"error": "Session ID not provided"},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
@@ -74,28 +74,31 @@ class PaymentSuccessView(APIView):
 
             payment = Payment.objects.get(session_id=session_id)
 
-            if session.payment_status == 'paid':
-                payment.status = 'PAID'
+            if session.payment_status == "paid":
+                payment.status = "PAID"
                 payment.save()
 
-                return Response({
-                    "message": "Payment successful!",
-                    "payment_id": payment.id
-                })
+                return Response(
+                    {
+                        "message": "Payment successful!",
+                        "payment_id": payment.id,
+                    }
+                )
             else:
-                return Response({
-                    "message": "Payment not completed yet"
-                }, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"message": "Payment not completed yet"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
         except Payment.DoesNotExist:
             return Response(
                 {"error": "Payment not found"},
-                status=status.HTTP_404_NOT_FOUND
+                status=status.HTTP_404_NOT_FOUND,
             )
         except stripe.error.StripeError as e:
             return Response(
                 {"error": f"Stripe error: {str(e)}"},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
 
@@ -103,7 +106,11 @@ class PaymentCancelView(APIView):
     """Handle cancelled payment from Stripe"""
 
     def get(self, request):
-        return Response({
-            "message": "Payment was cancelled. You can complete the payment later, but the session is available for only 24 hours."
-        })
-
+        return Response(
+            {
+                "message": "Payment was cancelled."
+                           " You can complete the payment later,"
+                           " but the session is available"
+                           " for only 24 hours."
+            }
+        )
