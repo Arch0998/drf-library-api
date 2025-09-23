@@ -3,7 +3,6 @@ from django.test import TestCase
 from payments.models import Payment, PaymentStatus, PaymentType
 from payments.serializers import (
     PaymentSerializer,
-    PaymentDetailSerializer,
     PaymentListSerializer,
 )
 from borrowings.models import Borrowing
@@ -41,7 +40,7 @@ class PaymentSerializerTests(TestCase):
         borrowing = self._create_borrowing()
         data = {
             "payment_type": PaymentType.PAYMENT,
-            "borrowing_id": borrowing.id,
+            "borrowing": borrowing.id,
             "money_to_pay": "15.50",
         }
         serializer = PaymentSerializer(data=data)

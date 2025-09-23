@@ -6,8 +6,7 @@ from borrowings.models import Borrowing
 
 
 class PaymentSerializer(serializers.ModelSerializer):
-    borrowing_id = serializers.PrimaryKeyRelatedField(
-        source="borrowing",
+    borrowing = serializers.PrimaryKeyRelatedField(
         queryset=Borrowing.objects.all(),
     )
 
@@ -17,7 +16,7 @@ class PaymentSerializer(serializers.ModelSerializer):
             "id",
             "status",
             "payment_type",
-            "borrowing_id",
+            "borrowing",
             "session_url",
             "session_id",
             "money_to_pay",
