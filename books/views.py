@@ -1,5 +1,6 @@
 from rest_framework import viewsets
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny
+from core.permissions import IsStaffUser
 from books.models import Book
 from books.serializers import BookSerializer
 
@@ -16,5 +17,5 @@ class BookViewSet(viewsets.ModelViewSet):
         if self.action in ["list", "retrieve"]:
             permission_classes = [AllowAny]
         else:
-            permission_classes = [IsAdminUser]
+            permission_classes = [IsStaffUser]
         return [permission() for permission in permission_classes]

@@ -2,13 +2,39 @@ from decimal import Decimal
 from django.test import TestCase
 from payments.models import Payment, PaymentStatus, PaymentType
 from payments.serializers import PaymentSerializer
+from borrowings.models import Borrowing
+from books.models import Book
+from django.contrib.auth import get_user_model
+from datetime import date, timedelta
 
 
 class PaymentSerializerTests(TestCase):
+    def _create_user(self):
+        return get_user_model().objects.create_user(
+            email="ser@test.com", password="testpass123"
+        )
+
+    def _create_book(self):
+        return Book.objects.create(
+            title="S Book",
+            author="Author",
+            cover="HARD",
+            inventory=5,
+            daily_fee=Decimal("1.00"),
+        )
+
+    def _create_borrowing(self):
+        return Borrowing.objects.create(
+            user=self._create_user(),
+            book=self._create_book(),
+            expected_return_date=date.today() + timedelta(days=3),
+        )
+
     def test_create_payment_valid(self):
+        borrowing = self._create_borrowing()
         data = {
             "payment_type": PaymentType.PAYMENT,
-            "borrowing_id": 123,
+            "borrowing_id": borrowing.id,
             "money_to_pay": "15.50",
         }
         serializer = PaymentSerializer(data=data)
@@ -19,7 +45,7 @@ class PaymentSerializerTests(TestCase):
         self.assertIsNotNone(obj.id)
         self.assertEqual(obj.status, PaymentStatus.PENDING)
         self.assertEqual(obj.payment_type, PaymentType.PAYMENT)
-        self.assertEqual(obj.borrowing_id, 123)
+        self.assertEqual(obj.borrowing_id, borrowing.id)
         self.assertEqual(obj.money_to_pay, Decimal("15.50"))
         self.assertIsNone(obj.session_id)
         self.assertIsNone(obj.session_url)

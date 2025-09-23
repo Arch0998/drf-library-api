@@ -11,23 +11,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 INSTALLED_APPS = [
+    # Django core apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Third-party apps
     "debug_toolbar",
-    "rest_framework",
     "django_filters",
     "drf_spectacular",
+    "rest_framework",
+    "rest_framework_simplejwt",
+    # Local apps
     "core",
     "users",
     "books",
     "borrowings",
     "payments",
     "notifications",
-    "rest_framework_simplejwt",
 ]
 
 MIDDLEWARE = [
