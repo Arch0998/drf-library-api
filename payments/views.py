@@ -1,6 +1,7 @@
 import stripe
 from django.conf import settings
 from drf_spectacular.utils import extend_schema_view, extend_schema
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import mixins, viewsets, status
 from rest_framework.views import APIView
@@ -40,6 +41,7 @@ class PaymentViewSet(
 ):
 
     queryset = Payment.objects.select_related("borrowing")
+    permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self):
         if self.action == "list":
