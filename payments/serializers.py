@@ -1,8 +1,14 @@
 from rest_framework import serializers
 from payments.models import Payment, PaymentStatus, PaymentType
+from borrowings.models import Borrowing
 
 
 class PaymentSerializer(serializers.ModelSerializer):
+    borrowing_id = serializers.PrimaryKeyRelatedField(
+        source="borrowing",
+        queryset=Borrowing.objects.all(),
+    )
+
     class Meta:
         model = Payment
         fields = [
