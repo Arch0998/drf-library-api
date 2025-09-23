@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
 
@@ -13,6 +14,25 @@ from payments.models import Payment, PaymentType
 from payments.stripe_helper import create_stripe_session
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary="List Borrowings",
+        description="Staff see all borrowings,"
+        " users see only their own. Supports filters.",
+        tags=["Borrowings"],
+    ),
+    retrieve=extend_schema(
+        summary="Borrowing Details",
+        description="Staff can view any borrowing, users only their own.",
+        tags=["Borrowings"],
+    ),
+    create=extend_schema(
+        summary="Create Borrowing",
+        description="Create a borrowing."
+        " A Stripe payment session is generated.",
+        tags=["Borrowings"],
+    ),
+)
 class BorrowingViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
