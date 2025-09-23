@@ -43,17 +43,16 @@ class BorrowingViewSet(
         session_data = create_stripe_session(
             borrowing=borrowing,
             payment_type=PaymentType.PAYMENT,
-            request=self.request
+            request=self.request,
         )
 
         Payment.objects.create(
             borrowing=borrowing,
-            session_id=session_data['session_id'],
-            session_url=session_data['session_url'],
-            money_to_pay=session_data['amount'],
+            session_id=session_data["session_id"],
+            session_url=session_data["session_url"],
+            money_to_pay=session_data["amount"],
             payment_type=PaymentType.PAYMENT,
-            status='PENDING'
-
+            status="PENDING",
         )
 
     def get_queryset(self):
