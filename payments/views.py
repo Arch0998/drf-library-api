@@ -151,7 +151,6 @@ class PaymentTestSuccessView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # Reuse the common logic from PaymentSuccessView
         success_view = PaymentSuccessView()
         return success_view._update_payment_status(session_id, is_test=True)
 
