@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import mixins, viewsets, status
@@ -16,6 +18,9 @@ from borrowings.serializers import (
 )
 from payments.models import Payment, PaymentType
 from payments.stripe_helper import create_stripe_session
+
+
+FINE_MULTIPLIER = 2
 
 
 @extend_schema_view(
@@ -112,11 +117,72 @@ class BorrowingViewSet(
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        today = timezone.now().date()
+
         with transaction.atomic():
-            borrowing.actual_return_date = timezone.now().date()
+            borrowing.actual_return_date = today
             borrowing.save()
             borrowing.book.inventory += 1
             borrowing.book.save()
 
+        if today > borrowing.expected_return_date:
+            fine_amount = self.calculate_fine(borrowing, today)
+
+            try:
+                session_data = create_stripe_session(
+                    borrowing=borrowing,
+                    payment_type=PaymentType.FINE,
+                    request=request,
+                    fine_amount=fine_amount,
+                )
+
+                Payment.objects.create(
+                    borrowing=borrowing,
+                    session_id=session_data["session_id"],
+                    session_url=session_data["session_url"],
+                    money_to_pay=fine_amount,
+                    payment_type=PaymentType.FINE,
+                    status="PENDING",
+                )
+
+                serializer = self.get_serializer(borrowing)
+                return Response(
+                    {
+                        "borrowing": serializer.data,
+                        "message": "Book returned successfully, "
+                                   " but you have a fine to pay",
+                        "days_overdue": (
+                            today - borrowing.expected_return_date
+                        ).days,
+                        "fine_amount": str(fine_amount),
+                        "payment_url": session_data["session_url"],
+                    },
+                    status=status.HTTP_200_OK,
+                )
+
+            except Exception as e:
+                serializer = self.get_serializer(borrowing)
+                return Response(
+                    {
+                        "borrowing": serializer.data,
+                        "message": "Book returned successfully,"
+                                   " but error creating fine payment",
+                        "error": str(e),
+                        "days_overdue": (
+                            today - borrowing.expected_return_date
+                        ).days,
+                        "fine_amount": str(fine_amount),
+                    },
+                    status=status.HTTP_200_OK,
+                )
+
         serializer = self.get_serializer(borrowing)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def calculate_fine(self, borrowing, actual_return_date):
+        days_overdue = (actual_return_date - borrowing.expected_return_date).days
+        daily_fee = borrowing.book.daily_fee
+
+        fine_amount = Decimal(days_overdue) * daily_fee * Decimal(FINE_MULTIPLIER)
+        return fine_amount
+
