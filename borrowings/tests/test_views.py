@@ -2,6 +2,7 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.contrib.auth import get_user_model
+from unittest.mock import patch
 
 from books.models import Book
 from borrowings.models import Borrowing
@@ -49,9 +50,11 @@ class BorrowingViewSetTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["id"], self.borrowing.id)
 
-    def test_create_borrowing(self):
+    @patch("borrowings.serializers.notify_new_borrowing.delay")
+    def test_create_borrowing(self, mock_notify_task):
         url = reverse("borrowings:borrowing-list")
         data = {"expected_return_date": "2030-01-10", "book": self.book2.id}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Borrowing.objects.count(), 2)
+        mock_notify_task.assert_called_once()

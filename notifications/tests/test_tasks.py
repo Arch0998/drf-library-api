@@ -42,11 +42,14 @@ def test_check_overdue_borrowings_sends_message():
         inventory=3,
         daily_fee=2.00,
     )
+    borrow_date = date.today() - timedelta(days=5)
+    expected_return_date = date.today() - timedelta(days=1)
+
     overdue_borrowing = Borrowing.objects.create(
         user=user,
         book=book,
-        borrow_date=date.today() - timedelta(days=2),
-        expected_return_date=date.today() - timedelta(days=1),
+        borrow_date=borrow_date,
+        expected_return_date=expected_return_date,
     )
     with patch("notifications.tasks.send_telegram_message") as mock_send:
         mock_send.return_value = True
