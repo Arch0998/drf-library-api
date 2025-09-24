@@ -173,9 +173,9 @@ docker-compose exec app python manage.py test
 
 ## 📸 Screenshots
 
-![Api](screenshots/User swagger.jpg)
-![Api](screenshots/Books swagger.jpg)
-![Api](screenshots/Borrowings swagger.jpg)
+![Api](screenshots/User_swagger.jpg)
+![Api](screenshots/Books_swagger.jpg)
+![Api](screenshots/Borrowings_swagger.jpg)
 ![PAY](screenshots/pay.png)
 ![PAY](screenshots/paid.jpg)
 ![BOT](screenshots/bot.png)
@@ -184,4 +184,4 @@ docker-compose exec app python manage.py test
 
 ## 📊 DB Structure
 
-![DB](screenshots/DB diagram.jpg)
+![DB](screenshots/DB_diagram.jpg)
