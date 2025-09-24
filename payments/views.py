@@ -1,5 +1,6 @@
 import stripe
 from django.conf import settings
+from django.db import transaction
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -15,6 +16,7 @@ from payments.serializers import (
     PaymentListSerializer,
     PaymentDetailSerializer,
 )
+from notifications.tasks import notify_successful_payment
 
 
 @extend_schema_view(
@@ -67,23 +69,28 @@ class PaymentSuccessView(APIView):
     def _update_payment_status(self, session_id, is_test=False):
         """Common logic for updating payment status"""
         try:
-            payment = Payment.objects.get(session_id=session_id)
-            payment.status = "PAID"
-            payment.save()
+            with transaction.atomic():
+                payment = Payment.objects.select_for_update().get(
+                    session_id=session_id
+                )
+                payment.status = "PAID"
+                payment.save()
 
-            message = (
-                "Payment status updated to PAID (TEST MODE)"
-                if is_test
-                else "Payment successful!"
-            )
+                notify_successful_payment.delay(payment.id)
 
-            return Response(
-                {
-                    "message": message,
-                    "payment_id": payment.id,
-                    "status": payment.status,
-                }
-            )
+                message = (
+                    "Payment status updated to PAID (TEST MODE)"
+                    if is_test
+                    else "Payment successful!"
+                )
+
+                return Response(
+                    {
+                        "message": message,
+                        "payment_id": payment.id,
+                        "status": payment.status,
+                    }
+                )
         except Payment.DoesNotExist:
             return Response(
                 {"error": "Payment not found"},
@@ -186,10 +193,14 @@ class StripeWebhookView(APIView):
             session_id = session["id"]
 
             try:
-                payment = Payment.objects.get(session_id=session_id)
-                if session["payment_status"] == "paid":
-                    payment.status = "PAID"
-                    payment.save()
+                with transaction.atomic():
+                    payment = Payment.objects.select_for_update().get(
+                        session_id=session_id
+                    )
+                    if session["payment_status"] == "paid":
+                        payment.status = "PAID"
+                        payment.save()
+                        notify_successful_payment.delay(payment.id)
             except Payment.DoesNotExist:
                 pass
 
