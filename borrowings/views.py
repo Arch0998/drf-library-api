@@ -1,7 +1,11 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema_view, extend_schema
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from django.utils import timezone
+from django.db import transaction
 
 from borrowings.models import Borrowing
 from borrowings.serializers import (
@@ -30,6 +34,11 @@ from payments.stripe_helper import create_stripe_session
         summary="Create Borrowing",
         description="Create a borrowing."
         " A Stripe payment session is generated.",
+        tags=["Borrowings"],
+    ),
+    return_book=extend_schema(
+        summary="Return Borrowing",
+        description="Return a borrowed book and increase inventory.",
         tags=["Borrowings"],
     ),
 )
@@ -81,3 +90,33 @@ class BorrowingViewSet(
         if not user.is_staff:
             queryset = queryset.filter(user=user)
         return queryset
+
+    @action(
+        detail=True,
+        methods=["post"],
+        url_path="return",
+        permission_classes=[IsAuthenticated],
+    )
+    def return_book(self, request, pk=None):
+        borrowing = self.get_object()
+
+        if not request.user.is_staff and borrowing.user != request.user:
+            return Response(
+                {"detail": "You don't have permission to return this book."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        if borrowing.actual_return_date is not None:
+            return Response(
+                {"detail": "This book has already been returned."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        with transaction.atomic():
+            borrowing.actual_return_date = timezone.now().date()
+            borrowing.save()
+            borrowing.book.inventory += 1
+            borrowing.book.save()
+
+        serializer = self.get_serializer(borrowing)
+        return Response(serializer.data, status=status.HTTP_200_OK)
