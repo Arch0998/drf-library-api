@@ -150,7 +150,7 @@ class BorrowingViewSet(
                     {
                         "borrowing": serializer.data,
                         "message": "Book returned successfully, "
-                                   " but you have a fine to pay",
+                        " but you have a fine to pay",
                         "days_overdue": (
                             today - borrowing.expected_return_date
                         ).days,
@@ -166,7 +166,7 @@ class BorrowingViewSet(
                     {
                         "borrowing": serializer.data,
                         "message": "Book returned successfully,"
-                                   " but error creating fine payment",
+                        " but error creating fine payment",
                         "error": str(e),
                         "days_overdue": (
                             today - borrowing.expected_return_date
@@ -180,9 +180,12 @@ class BorrowingViewSet(
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def calculate_fine(self, borrowing, actual_return_date):
-        days_overdue = (actual_return_date - borrowing.expected_return_date).days
+        days_overdue = (
+            actual_return_date - borrowing.expected_return_date
+        ).days
         daily_fee = borrowing.book.daily_fee
 
-        fine_amount = Decimal(days_overdue) * daily_fee * Decimal(FINE_MULTIPLIER)
+        fine_amount = (
+            Decimal(days_overdue) * daily_fee * Decimal(FINE_MULTIPLIER)
+        )
         return fine_amount
-
