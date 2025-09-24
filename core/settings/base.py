@@ -3,6 +3,8 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+from celery.schedules import crontab
+
 
 load_dotenv()
 
@@ -129,3 +131,12 @@ SIMPLE_JWT = {
 
 STRIPE_PUBLISHABLE_KEY = os.environ["STRIPE_PUBLISHABLE_KEY"]
 STRIPE_SECRET_KEY = os.environ["STRIPE_SECRET_KEY"]
+
+CELERY_BROKER_URL = "redis://redis:6379/0"
+CELERY_RESULT_BACKEND = "redis://redis:6379/0"
+CELERY_BEAT_SCHEDULE = {
+    "check-overdue-borrowings-every-day": {
+        "task": "notifications.tasks.check_overdue_borrowings",
+        "schedule": crontab(hour=9, minute=0),
+    },
+}
