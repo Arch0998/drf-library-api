@@ -32,21 +32,23 @@ def create_stripe_session(
         total_price = borrowing.book.daily_fee * Decimal(borrow_days)
         description = f"Book rental for {borrow_days} days"
         product_name = f"Book Rental: {borrowing.book.title}"
-        
+
     elif payment_type == PaymentType.FINE:
         if fine_amount is None:
             raise ValueError("fine_amount is required for FINE payments")
-        
+
         if not borrowing.actual_return_date:
-            raise ValueError("actual_return_date is required for FINE payments")
-            
+            raise ValueError(
+                "actual_return_date is required for FINE payments"
+            )
+
         total_price = fine_amount
         days_overdue = (
             borrowing.actual_return_date - borrowing.expected_return_date
         ).days
         description = f"Fine for {days_overdue} days overdue"
         product_name = f"Overdue Fine: {borrowing.book.title}"
-    
+
     else:
         raise ValueError(f"Unsupported payment_type: {payment_type}")
 
