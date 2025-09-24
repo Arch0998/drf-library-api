@@ -44,4 +44,5 @@ urlpatterns = [
     path("borrowings/", include("borrowings.urls")),
     path("payments/", include("payments.urls")),
     path("notifications/", include("notifications.urls")),
+    path("api-auth/", include("rest_framework.urls")),
 ]
