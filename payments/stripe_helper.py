@@ -2,6 +2,7 @@ import stripe
 from django.conf import settings
 from django.urls import reverse
 from decimal import Decimal
+
 from payments.models import PaymentType
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -51,9 +52,8 @@ def create_stripe_session(
                 }
             ],
             mode="payment",
-            success_url=request.build_absolute_uri(
-                reverse("payments:success")
-            ),
+            success_url=request.build_absolute_uri(reverse("payments:success"))
+            + "?session_id={CHECKOUT_SESSION_ID}",
             cancel_url=request.build_absolute_uri(reverse("payments:cancel")),
         )
 
