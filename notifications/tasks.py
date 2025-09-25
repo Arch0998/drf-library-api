@@ -2,6 +2,7 @@ from celery import shared_task
 from django.utils import timezone
 
 from borrowings.models import Borrowing
+from payments.models import Payment
 from notifications.telegram_helper import send_telegram_message
 
 
@@ -27,8 +28,6 @@ def notify_new_borrowing(borrowing_id: int) -> None:
 @shared_task
 def notify_successful_payment(payment_id: int) -> None:
     try:
-        from payments.models import Payment
-
         payment = Payment.objects.select_related(
             "borrowing__book", "borrowing__user"
         ).get(id=payment_id)

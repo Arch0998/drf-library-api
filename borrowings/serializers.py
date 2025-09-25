@@ -73,7 +73,9 @@ class BorrowingCreateSerializer(serializers.ModelSerializer):
         book.inventory -= 1
         book.save()
         borrowing = Borrowing.objects.create(book=book, **validated_data)
-        notify_new_borrowing.delay(borrowing.id)
+        transaction.on_commit(
+            lambda: notify_new_borrowing.delay(borrowing.id)
+        )
         return borrowing
 
     def validate_book(self, value: Book) -> Book:

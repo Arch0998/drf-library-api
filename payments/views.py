@@ -81,7 +81,9 @@ class PaymentSuccessView(APIView):
                 payment.status = "PAID"
                 payment.save()
 
-                notify_successful_payment.delay(payment.id)
+                transaction.on_commit(
+                    lambda: notify_successful_payment.delay(payment.id)
+                )
 
                 message = (
                     "Payment status updated to PAID (TEST MODE)"
@@ -100,6 +102,11 @@ class PaymentSuccessView(APIView):
             return Response(
                 {"error": "Payment not found"},
                 status=status.HTTP_404_NOT_FOUND,
+            )
+        except Exception as e:
+            return Response(
+                {"error": f"Database error: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
     def get(self, request: Request) -> Response:
@@ -205,7 +212,9 @@ class StripeWebhookView(APIView):
                     if session["payment_status"] == "paid":
                         payment.status = "PAID"
                         payment.save()
-                        notify_successful_payment.delay(payment.id)
+                        transaction.on_commit(
+                            lambda: notify_successful_payment.delay(payment.id)
+                        )
             except Payment.DoesNotExist:
                 pass
 
