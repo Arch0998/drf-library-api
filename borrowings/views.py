@@ -55,11 +55,6 @@ class BorrowingViewSet(
     mixins.CreateModelMixin,
     viewsets.GenericViewSet,
 ):
-    queryset = (
-        Borrowing.objects.all()
-        .select_related("book", "user")
-        .order_by("-borrow_date")
-    )
     permission_classes = (IsAuthenticated,)
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["user", "book", "borrow_date", "actual_return_date"]
@@ -92,7 +87,7 @@ class BorrowingViewSet(
         )
 
     def get_queryset(self) -> Any:
-        queryset = super().get_queryset()
+        queryset = Borrowing.objects.all().select_related("book", "user")
         user = self.request.user
         if not user.is_staff:
             queryset = queryset.filter(user=user)

@@ -48,7 +48,6 @@ class PaymentViewSet(
     viewsets.GenericViewSet,
 ):
 
-    queryset = Payment.objects.select_related("borrowing")
     permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self) -> type:
