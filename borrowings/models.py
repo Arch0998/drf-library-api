@@ -49,13 +49,13 @@ class Borrowing(models.Model):
         ordering = ["-borrow_date"]
         constraints = [
             models.CheckConstraint(
-                check=models.Q(
+                condition=models.Q(
                     expected_return_date__gte=models.F("borrow_date")
                 ),
                 name="expected_after_borrow",
             ),
             models.CheckConstraint(
-                check=(
+                condition=(
                     models.Q(actual_return_date__isnull=True)
                     | models.Q(actual_return_date__gte=models.F("borrow_date"))
                 ),

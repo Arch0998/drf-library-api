@@ -55,7 +55,7 @@ class Payment(models.Model):
         db_table = "payment"
         constraints = [
             models.CheckConstraint(
-                check=Q(money_to_pay__gte=0),
+                condition=Q(money_to_pay__gte=0),
                 name="money_to_pay_non_negative",
             ),
             models.UniqueConstraint(
