@@ -1,5 +1,7 @@
 from django.urls import reverse
-from rest_framework.test import APITestCase
+from django.test import TransactionTestCase
+from django.db import transaction
+from rest_framework.test import APIClient
 from rest_framework import status
 from django.contrib.auth import get_user_model
 from unittest.mock import patch
@@ -11,11 +13,12 @@ from borrowings.models import Borrowing
 User = get_user_model()
 
 
-class BorrowingViewSetTest(APITestCase):
+class BorrowingViewSetTest(TransactionTestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             email="testuser@example.com", password="12345"
         )
+        self.client = APIClient()
         self.client.force_authenticate(user=self.user)
         self.book = Book.objects.create(
             title="Book",
@@ -57,4 +60,5 @@ class BorrowingViewSetTest(APITestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Borrowing.objects.count(), 2)
+
         mock_notify_task.assert_called_once()
