@@ -87,7 +87,7 @@ class BorrowingViewSet(
         )
 
     def get_queryset(self) -> Any:
-        queryset = super().get_queryset()
+        queryset = Borrowing.objects.all().select_related("book", "user")
         user = self.request.user
         if not user.is_staff:
             queryset = queryset.filter(user=user)

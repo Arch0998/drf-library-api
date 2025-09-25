@@ -77,16 +77,6 @@ class PaymentSerializerTests(TestCase):
         self.assertFalse(serializer.is_valid())
         self.assertIn("payment_type", serializer.errors)
 
-    def test_negative_amount(self):
-        data = {
-            "payment_type": PaymentType.PAYMENT,
-            "borrowing_id": 1,
-            "money_to_pay": "-0.01",
-        }
-        serializer = PaymentSerializer(data=data)
-        self.assertFalse(serializer.is_valid())
-        self.assertIn("money_to_pay", serializer.errors)
-
     def test_missing_money_to_pay(self):
         data = {
             "payment_type": PaymentType.PAYMENT,

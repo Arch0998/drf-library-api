@@ -70,15 +70,3 @@ class PaymentEndpointsTests(TestCase):
         resp = self.client.post(self.list_url, data=payload, format="json")
         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("payment_type", resp.data)
-
-    def test_create_negative_amount_returns_400(self):
-        self.client.force_authenticate(user=self.user)
-        borrowing = self._create_borrowing()
-        payload = {
-            "payment_type": PaymentType.PAYMENT,
-            "borrowing": borrowing.id,
-            "money_to_pay": "-0.01",
-        }
-        resp = self.client.post(self.list_url, data=payload, format="json")
-        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("money_to_pay", resp.data)

@@ -46,6 +46,7 @@ class Borrowing(models.Model):
 
     class Meta:
         db_table = "borrowings"
+        ordering = ["-borrow_date"]
         constraints = [
             models.CheckConstraint(
                 check=models.Q(
