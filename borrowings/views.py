@@ -55,11 +55,6 @@ class BorrowingViewSet(
     mixins.CreateModelMixin,
     viewsets.GenericViewSet,
 ):
-    queryset = (
-        Borrowing.objects.all()
-        .select_related("book", "user")
-        .order_by("-borrow_date")
-    )
     permission_classes = (IsAuthenticated,)
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["user", "book", "borrow_date", "actual_return_date"]
