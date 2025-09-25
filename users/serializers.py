@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
@@ -16,10 +18,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ("email", "password")
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict[str, Any]) -> User:
         return User.objects.create_user(**validated_data)
 
-    def validate_email(self, value):
+    def validate_email(self, value: str) -> str:
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError(
                 "User with this email already exists."
@@ -51,7 +53,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         fields = ("id", "email", "first_name", "last_name", "password")
         read_only_fields = ("id",)
 
-    def update(self, instance, validated_data):
+    def update(self, instance: User, validated_data: dict[str, Any]) -> User:
         password = validated_data.pop("password", None)
         user = super().update(instance, validated_data)
         if password:
@@ -59,7 +61,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             user.save()
         return user
 
-    def validate_email(self, value):
+    def validate_email(self, value: str) -> str:
         user = self.instance
         if User.objects.exclude(pk=user.pk).filter(email=value).exists():
             raise serializers.ValidationError(
@@ -67,7 +69,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             )
         return value
 
-    def validate_first_name(self, value):
+    def validate_first_name(self, value: str) -> str:
         if not value.strip():
             raise serializers.ValidationError("First name cannot be blank.")
         if len(value) < 2:
@@ -76,7 +78,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             )
         return value
 
-    def validate_last_name(self, value):
+    def validate_last_name(self, value: str) -> str:
         if not value.strip():
             raise serializers.ValidationError("Last name cannot be blank.")
         if len(value) < 2:

@@ -1,5 +1,3 @@
-import os
-
 import requests
 
 from core.settings.base import (
@@ -9,7 +7,10 @@ from core.settings.base import (
 )
 
 
-def send_telegram_message(text):
+load_dotenv()
+
+
+def send_telegram_message(text: str) -> bool:
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         return False
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"

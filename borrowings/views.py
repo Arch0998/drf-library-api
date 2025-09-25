@@ -1,13 +1,15 @@
 from decimal import Decimal
+from typing import Any
 
+from django.db import transaction
+from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
 from rest_framework.response import Response
-from django.utils import timezone
-from django.db import transaction
 
 from borrowings.models import Borrowing
 from borrowings.serializers import (
@@ -62,7 +64,7 @@ class BorrowingViewSet(
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["user", "book", "borrow_date", "actual_return_date"]
 
-    def get_serializer_class(self):
+    def get_serializer_class(self) -> type:
         if self.action == "list":
             return BorrowingListSerializer
         if self.action == "retrieve":
@@ -71,7 +73,7 @@ class BorrowingViewSet(
             return BorrowingCreateSerializer
         return BorrowingSerializer
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer: BorrowingCreateSerializer) -> None:
         borrowing = serializer.save(user=self.request.user)
 
         session_data = create_stripe_session(
@@ -89,7 +91,7 @@ class BorrowingViewSet(
             status="PENDING",
         )
 
-    def get_queryset(self):
+    def get_queryset(self) -> Any:
         queryset = super().get_queryset()
         user = self.request.user
         if not user.is_staff:
@@ -102,7 +104,7 @@ class BorrowingViewSet(
         url_path="return",
         permission_classes=[IsAuthenticated],
     )
-    def return_book(self, request, pk=None):
+    def return_book(self, request: Request, pk: str = None) -> Response:
         borrowing = self.get_object()
 
         if not request.user.is_staff and borrowing.user != request.user:
@@ -179,7 +181,9 @@ class BorrowingViewSet(
         serializer = self.get_serializer(borrowing)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def calculate_fine(self, borrowing, actual_return_date):
+    def calculate_fine(
+        self, borrowing: Borrowing, actual_return_date: Any
+    ) -> Decimal:
         days_overdue = (
             actual_return_date - borrowing.expected_return_date
         ).days

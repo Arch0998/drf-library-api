@@ -1,11 +1,14 @@
+from typing import Any
+
 import stripe
 from django.conf import settings
 from django.db import transaction
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import mixins, viewsets, status
 from rest_framework.views import APIView
@@ -48,14 +51,14 @@ class PaymentViewSet(
     queryset = Payment.objects.select_related("borrowing")
     permission_classes = (IsAuthenticated,)
 
-    def get_serializer_class(self):
+    def get_serializer_class(self) -> type:
         if self.action == "list":
             return PaymentListSerializer
         if self.action == "retrieve":
             return PaymentDetailSerializer
         return PaymentSerializer
 
-    def get_queryset(self):
+    def get_queryset(self) -> Any:
         queryset = Payment.objects.select_related("borrowing")
         user = self.request.user
         if not user.is_staff:
@@ -66,7 +69,9 @@ class PaymentViewSet(
 class PaymentSuccessView(APIView):
     """Handle successful payment callback from Stripe"""
 
-    def _update_payment_status(self, session_id, is_test=False):
+    def _update_payment_status(
+        self, session_id: str, is_test: bool = False
+    ) -> Response:
         """Common logic for updating payment status"""
         try:
             with transaction.atomic():
@@ -97,7 +102,7 @@ class PaymentSuccessView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-    def get(self, request):
+    def get(self, request: Request) -> Response:
         session_id = request.GET.get("session_id")
 
         if not session_id:
@@ -133,7 +138,7 @@ class PaymentSuccessView(APIView):
 class PaymentCancelView(APIView):
     """Handle cancelled payment from Stripe"""
 
-    def get(self, request):
+    def get(self, request: Request) -> Response:
         return Response(
             {
                 "message": "Payment was cancelled."
@@ -149,7 +154,7 @@ class PaymentTestSuccessView(APIView):
 
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
+    def post(self, request: Request) -> Response:
         session_id = request.data.get("session_id")
 
         if not session_id:
@@ -166,7 +171,7 @@ class PaymentTestSuccessView(APIView):
 class StripeWebhookView(APIView):
     """Handle Stripe webhook events"""
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse:
         payload = request.body
         sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
         endpoint_secret = getattr(settings, "STRIPE_WEBHOOK_SECRET", None)

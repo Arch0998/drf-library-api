@@ -1,7 +1,10 @@
+from typing import Any
+
 from django.db import transaction
 from django.utils import timezone
 from rest_framework import serializers
 
+from books.models import Book
 from books.serializers import BookSerializer
 from borrowings.models import Borrowing
 from notifications.tasks import notify_new_borrowing
@@ -65,7 +68,7 @@ class BorrowingCreateSerializer(serializers.ModelSerializer):
         fields = ("expected_return_date", "book")
 
     @transaction.atomic
-    def create(self, validated_data):
+    def create(self, validated_data: dict[str, Any]) -> Borrowing:
         book = validated_data.pop("book")
         book.inventory -= 1
         book.save()
@@ -73,12 +76,12 @@ class BorrowingCreateSerializer(serializers.ModelSerializer):
         notify_new_borrowing.delay(borrowing.id)
         return borrowing
 
-    def validate_book(self, value):
+    def validate_book(self, value: Book) -> Book:
         if value.inventory <= 0:
             raise serializers.ValidationError("Not enough books")
         return value
 
-    def validate(self, attrs):
+    def validate(self, attrs: dict[str, Any]) -> dict[str, Any]:
         Borrowing.validate_expected_return_date(
             expected_return_date=attrs["expected_return_date"],
             borrow_date=timezone.now().date(),

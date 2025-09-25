@@ -1,12 +1,12 @@
 from celery import shared_task
 from django.utils import timezone
 
-from notifications.telegram_helper import send_telegram_message
 from borrowings.models import Borrowing
+from notifications.telegram_helper import send_telegram_message
 
 
 @shared_task
-def notify_new_borrowing(borrowing_id):
+def notify_new_borrowing(borrowing_id: int) -> None:
     try:
         borrowing = Borrowing.objects.select_related("book", "user").get(
             id=borrowing_id
@@ -25,7 +25,7 @@ def notify_new_borrowing(borrowing_id):
 
 
 @shared_task
-def notify_successful_payment(payment_id):
+def notify_successful_payment(payment_id: int) -> None:
     try:
         from payments.models import Payment
 
@@ -50,7 +50,7 @@ def notify_successful_payment(payment_id):
 
 
 @shared_task
-def check_overdue_borrowings():
+def check_overdue_borrowings() -> None:
     today = timezone.now().date()
     overdues = Borrowing.objects.filter(
         expected_return_date__lte=today, actual_return_date__isnull=True

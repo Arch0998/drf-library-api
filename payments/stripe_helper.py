@@ -1,16 +1,23 @@
+from decimal import Decimal
+from typing import Any, Optional
+
 import stripe
 from django.conf import settings
+from django.http import HttpRequest
 from django.urls import reverse
-from decimal import Decimal
 
+from borrowings.models import Borrowing
 from payments.models import PaymentType
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 def create_stripe_session(
-    borrowing, payment_type=PaymentType.PAYMENT, request=None, fine_amount=None
-):
+    borrowing: Borrowing,
+    payment_type: str = PaymentType.PAYMENT,
+    request: Optional[HttpRequest] = None,
+    fine_amount: Optional[Decimal] = None,
+) -> dict[str, Any]:
     """
     Create a Stripe checkout session for a borrowing.
 
